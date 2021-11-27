@@ -2,11 +2,11 @@ from django.db import models
 
 class ScheduleItems(models.Model):
 
-    MONDAY = 0
-    TUESDAY = 1
-    WEDNESDAY = 2
-    THURSDAY = 3
-    FRIDAY = 4
+    MONDAY = 1
+    TUESDAY = 2
+    WEDNESDAY = 3
+    THURSDAY = 4
+    FRIDAY = 5
 
     DAY_CHOICES = [
         (MONDAY, 'Monday'),
@@ -15,6 +15,8 @@ class ScheduleItems(models.Model):
         (THURSDAY, 'Thursday'),
         (FRIDAY, 'Friday')
     ]
+
+    schedule = models.ForeignKey('base.Schedule', on_delete=models.CASCADE)
 
     day = models.IntegerField(choices=DAY_CHOICES)
 
