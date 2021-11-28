@@ -7,3 +7,4 @@ from .Schedule import Schedule as _Schedule
 from .ScheduleItems import ScheduleItems as _ScheduleItems
 from .Semester import Semester as _Semester
 from .SemesterCourse import SemesterCourse as _SemesterCourse
+from .Room import Room as _Room

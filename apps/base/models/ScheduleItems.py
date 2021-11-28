@@ -24,4 +24,4 @@ class ScheduleItems(models.Model):
     to_time = models.TimeField()
 
     def __str__(self):
-        return f'{self.DAY_CHOICES[self.day][-1]} ({self.from_time} - {self.to_time})'
+        return f'{self.DAY_CHOICES[self.day-1][-1]} ({self.from_time} - {self.to_time})'

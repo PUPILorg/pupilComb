@@ -37,7 +37,6 @@ class Semester(models.Model):
 
                 PeriodicTask.objects.get_or_create(
                     crontab = schedule,
-                    name = f'{str(semester_class.course)}',
-                    task = room_raspberry_pi.record
+                    name = f'{str(semester_class.course)} - {schedule_item.day}',
+                    task = 'room_raspberry_pi.record',
                 )
-

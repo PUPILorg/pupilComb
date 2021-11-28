@@ -5,13 +5,12 @@ from django.utils import timezone
 class RaspberryPi(models.Model):
 
     is_active = models.BooleanField(default=False)
-    room_number = models.IntegerField(default=-1)
     video_input_port = models.IntegerField(default=0)
 
     room = models.ForeignKey('base.Room', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.room_number}'
+        return f'{self.room}'
 
     def record(self, file_path :str, stop_time: timezone) -> None:
 
@@ -29,3 +28,6 @@ class RaspberryPi(models.Model):
 
         vid_capture.release()
         output.release()
+
+    def set_active(self):
+        self.is_active = True
