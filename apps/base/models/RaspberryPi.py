@@ -13,18 +13,24 @@ class RaspberryPi(models.Model):
         return f'{self.room}'
 
     def record(self, file_path :str, stop_time: timezone) -> None:
+        """
+
+        :TODO saving the video | setting up the Media and courseItem models
+
+        records the video on the PI
+        :param file_path: file where the recording should be stored
+        :param stop_time: stop time for when the recording stops
+        :return: nothing
+        """
 
         vid_capture = cv2.VideoCapture(self.video_input_port)
         vid_code = cv2.VideoWriter_fourcc(*'XVID')
         output = cv2.VideoWriter(file_path, vid_code, 20.0, (1920, 1080))
 
-        while True:
+        while timezone.now() < stop_time:
 
             ret, frame = vid_capture.read()
             output.write(frame)
-
-            if timezone.now() < stop_time:
-                break
 
         vid_capture.release()
         output.release()
