@@ -15,3 +15,7 @@ def record_video(pk: int, file_path: str, stop_time) -> None:
     """
     rpi = RaspberryPi.objects.get(id=pk)
     rpi.record(file_path=file_path, stop_time=stop_time)
+
+@celery.shared_task
+def add(a,b):
+    return a+b
