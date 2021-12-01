@@ -43,5 +43,6 @@ class Semester(models.Model):
                         'file_path': 'testFile1',
                         'id': room_raspberry_pi.id,
                         'stop_time': schedule_item.to_time
-                    }
+                    },
+                    queue=room_raspberry_pi.queue_name
                 )

@@ -9,6 +9,13 @@ class RaspberryPi(models.Model):
 
     room = models.ForeignKey('base.Room', on_delete=models.CASCADE)
 
+    queue_name = models.CharField(null=False, blank=True)
+
+    def save(self, *args, **kwargs):
+        
+        self.queue_name = f'pi_{self.id}'
+        super(RaspberryPi, self).save(*args, **kwargs)
+
     def __str__(self):
         return f'{self.room}'
 
