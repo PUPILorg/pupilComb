@@ -9,7 +9,7 @@ class RaspberryPi(models.Model):
 
     room = models.ForeignKey('base.Room', on_delete=models.CASCADE)
 
-    queue_name = models.CharField(null=False, blank=True)
+    queue_name = models.CharField(null=False, blank=True, max_length=100)
 
     def save(self, *args, **kwargs):
         
