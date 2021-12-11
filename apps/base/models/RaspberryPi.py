@@ -1,6 +1,11 @@
-from django.db import models
+from time import sleep
+
 import cv2
+from django.db import models
 from django.utils import timezone
+
+from apps.base.utils.CamUtils import WebCam, VideoWriter
+from queue import Queue
 
 class RaspberryPi(models.Model):
 
@@ -19,28 +24,21 @@ class RaspberryPi(models.Model):
     def __str__(self):
         return f'{self.room}'
 
-    def record(self, file_path :str, stop_time: timezone) -> None:
-        """
+    def record(self, file_path :str, end_time: float) -> None:
+        frame_queue = Queue()
 
-        :TODO saving the video | setting up the Media and courseItem models
+        wc = WebCam(src=0, width=640, height=480, queue=frame_queue, end_time=end_time)
+        wc.start()
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
 
-        records the video on the PI
-        :param file_path: file where the recording should be stored
-        :param stop_time: stop time for when the recording stops
-        :return: nothing
-        """
+        sleep(5)
+        fps = frame_queue.qsize() / 5
 
-        vid_capture = cv2.VideoCapture(self.video_input_port)
-        vid_code = cv2.VideoWriter_fourcc(*'XVID')
-        output = cv2.VideoWriter(file_path, vid_code, 20.0, (1920, 1080))
+        vw = VideoWriter(filepath=file_path, width=640, height=480, queue=frame_queue, fps=fps, fourcc=fourcc)
+        vw.start()
 
-        while timezone.now() < stop_time:
-
-            ret, frame = vid_capture.read()
-            output.write(frame)
-
-        vid_capture.release()
-        output.release()
+        wc.join()
+        vw.join()
 
     def set_active(self):
         self.is_active = True
