@@ -1,16 +1,16 @@
-from time import sleep
+import time
 
-import cv2
 from django.db import models
-from django.utils import timezone
 
-from apps.base.utils.CamUtils import WebCam, VideoWriter
-from queue import Queue
+from apps.base.utils.ffmpeg_utils import FFMPEG
+from .Media import Media
+from .CourseItems import CourseItems
+
 
 class RaspberryPi(models.Model):
 
     is_active = models.BooleanField(default=False)
-    video_input_port = models.IntegerField(default=0)
+    camera_path = models.CharField(max_length=50)
 
     room = models.ForeignKey('base.Room', on_delete=models.CASCADE)
 
@@ -20,25 +20,19 @@ class RaspberryPi(models.Model):
         
         self.queue_name = f'pi_{self.id}'
         super(RaspberryPi, self).save(*args, **kwargs)
+        self.set_active()
 
     def __str__(self):
         return f'{self.room}'
 
-    def record(self, file_path :str, end_time: float) -> None:
-        frame_queue = Queue()
+    def record(self, file_path :str, end_time: float, course_id: int) -> None:
+        duration = end_time - time.time()
+        ffmpeg = FFMPEG(src=self.camera_path, duration=duration, file_path=file_path)
+        ffmpeg.start()
 
-        wc = WebCam(src=0, width=640, height=480, queue=frame_queue, end_time=end_time)
-        wc.start()
-        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        media = Media.objects.create(file=file_path)
+        CourseItems.objects.create(semester_course_id=course_id, media_id=media.id)
 
-        sleep(5)
-        fps = frame_queue.qsize() / 5
-
-        vw = VideoWriter(filepath=file_path, width=640, height=480, queue=frame_queue, fps=fps, fourcc=fourcc)
-        vw.start()
-
-        wc.join()
-        vw.join()
 
     def set_active(self):
         self.is_active = True

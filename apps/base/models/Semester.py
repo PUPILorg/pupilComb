@@ -40,9 +40,10 @@ class Semester(models.Model):
                     name = f'{str(semester_class.course)} - {schedule_item.day}',
                     task = 'tasks.record_video',
                     kwargs = {
-                        'file_path': 'testFile1',
+                        'file_path': f'{str(semester_class.course)}',
                         'id': room_raspberry_pi.id,
-                        'stop_time': schedule_item.to_time
+                        'stop_time': schedule_item.to_time,
+                        'course_id': semester_class.id
                     },
                     queue=room_raspberry_pi.queue_name
                 )
