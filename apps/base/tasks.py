@@ -1,5 +1,5 @@
 import celery
-from .models.RaspberryPi import RaspberryPi
+from .models.Recorder import Recorder
 from django.utils import timezone
 
 @celery.shared_task
@@ -15,6 +15,6 @@ def record_video(pk: int, file_path: str, stop_time, course_id: int) -> None:
     :param stop_time: when the recording should stop
     :return: nothing
     """
-    rpi = RaspberryPi.objects.get(id=pk)
+    rpi = Recorder.objects.get(id=pk)
     file_path += f'--{timezone.now().date()}'
     rpi.record(file_path=file_path, stop_time=stop_time, course_id=course_id)

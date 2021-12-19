@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 from .models.Room import Room
-from .models.RaspberryPi import RaspberryPi
-from .models.ScheduleItems import ScheduleItems
+from .models.Recorder import Recorder
+from .models.SemesterCourseMeetingItem import SemesterCourseMeetingItem
 from .models.SemesterCourse import SemesterCourse
 from .models.CourseSection import CourseSection
 from .models.Course import Course
@@ -15,8 +15,8 @@ from .models.Semester import Semester
 class CourseItemInline(admin.TabularInline):
     model = CourseItems
 
-class ScheduleItemsInline(admin.TabularInline):
-    model = ScheduleItems
+class SemesterCourseMeetingItemInline(admin.TabularInline):
+    model = SemesterCourseMeetingItem
 
 class CourseSectionInline(admin.TabularInline):
     model = CourseSection
@@ -26,13 +26,13 @@ class CourseSectionInline(admin.TabularInline):
 class RoomAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(RaspberryPi)
+@admin.register(Recorder)
 class RaspberryPiAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('queue_name',)
 
 @admin.register(SemesterCourse)
 class SemesterCourseAdmin(admin.ModelAdmin):
-    pass
+    inlines =  (SemesterCourseMeetingItemInline, CourseItemInline)
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
@@ -40,7 +40,7 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
-    inlines = (ScheduleItemsInline, )
+    pass
 
 @admin.register(Media)
 class MediaAdmin(admin.ModelAdmin):
