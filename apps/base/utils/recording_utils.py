@@ -10,13 +10,12 @@ class Resolution(enum.Enum):
 class Encoding(enum.Enum):
 
     ENCODING_H264 = 'h264'
-    ENCODING_MJPEG = 'mjpeg'
 
 class Recording:
 
     _base_command: str = f'ffmpeg -f v4l2 '
 
-    def __init__(self, src: str, output_file: str, duration: int,res: Resolution = Resolution.RES_1920x1080,
+    def __init__(self, src: str, output_file: str, duration: int,resolution: Resolution = Resolution.RES_1920x1080,
                  encoding: Encoding = Encoding.ENCODING_H264):
         """
         initializes the ffmpeg command
@@ -26,7 +25,7 @@ class Recording:
         :param res: resolution of the video (default 1920x1080)
         :param encoding: encoding of the video (default h264)
         """
-        self._base_command += f'-video_size {res} -c:v {encoding} -i {src} -t {duration} -c:v copy {output_file}'
+        self._base_command += f'-video_size {resolution} -c:v {encoding} -i {src} -t {duration} -c:v copy {output_file}'
 
     def start(self):
         subprocess.run(self._base_command, shell=True)
