@@ -48,4 +48,4 @@ class RecordingUtilTest(unittest.TestCase):
 
         self.assertEqual(640, height)
         self.assertEqual(480, width)
-        self.assertAlmostEqual(10, video_length)
+        self.assertAlmostEqual(10, video_lengthk)

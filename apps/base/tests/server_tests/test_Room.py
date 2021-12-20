@@ -1,6 +1,6 @@
 import django.db.utils
 from apps.base.models.Room import Room
-from .TestCaseWithData import TestCaseWithData
+from apps.base.tests.TestCaseWithData import TestCaseWithData
 
 class RoomTestCase(TestCaseWithData):
 

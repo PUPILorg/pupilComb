@@ -1,6 +1,6 @@
 from django.utils import timezone
 
-from .TestCaseWithData import TestCaseWithData
+from apps.base.tests.TestCaseWithData import TestCaseWithData
 
 from apps.base.models.Schedule import Schedule
 

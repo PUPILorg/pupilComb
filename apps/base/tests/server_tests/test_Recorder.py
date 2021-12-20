@@ -1,4 +1,4 @@
-from .TestCaseWithData import TestCaseWithData
+from apps.base.tests.TestCaseWithData import TestCaseWithData
 
 class RecorderTestCase(TestCaseWithData):
 

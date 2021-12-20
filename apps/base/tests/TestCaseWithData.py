@@ -4,7 +4,7 @@ import apps.base.tests.data_factory as data_factory
 
 class TestCaseWithData(TestCase):
     """
-    Extension of the default django TestCase that sets up data in the DB that can be used for all the tests
+    Extension of the default django TestCase that sets up data in the DB that can be used for all the server_tests
     that inherit it
 
     any reference to today gets evaluated to the day the test is run
@@ -49,11 +49,11 @@ class TestCaseWithData(TestCase):
             day = 1,
             semester_course = cls.semester_course
         )
-        cls.semester_course_meeting_M = data_factory.SemesterCourseMeetingItemFactory(
+        cls.semester_course_meeting_W = data_factory.SemesterCourseMeetingItemFactory(
             day = 3,
             semester_course = cls.semester_course
         )
-        cls.semester_course_meeting_M = data_factory.SemesterCourseMeetingItemFactory(
+        cls.semester_course_meeting_F = data_factory.SemesterCourseMeetingItemFactory(
             day = 5,
             semester_course = cls.semester_course
         )

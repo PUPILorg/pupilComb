@@ -19,13 +19,13 @@ class Recorder(models.Model):
     def __str__(self):
         return f'{self.room}'
 
-    def record(self, file_path :str, end_time: float, course_id: int) -> None:
+    def record(self, file_path :str, end_time: float, semester_course_id: int) -> None:
         duration = end_time - time.time()
         recording = Recording(src=self.camera_path, duration=duration, file_path=file_path)
         recording.start()
 
         media = Media.objects.create(file=file_path)
-        CourseItems.objects.create(semester_course_id=course_id, media_id=media.id)
+        CourseItems.objects.create(semester_course_id=semester_course_id, media_id=media.id)
 
 
     def set_active(self):

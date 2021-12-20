@@ -1,8 +1,6 @@
 from django.db import models
-from django_celery_beat.models import CrontabSchedule, PeriodicTask
+
 from .SemesterCourse import SemesterCourse
-from .SemesterCourseMeetingItem import SemesterCourseMeetingItem
-from .Recorder import Recorder
 
 class Semester(models.Model):
 
@@ -16,34 +14,13 @@ class Semester(models.Model):
 
     semester = models.CharField(max_length=3, choices=SEMESTER_CHOICES, default=FALL_21, unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'{self.semester}'
 
-    def set_up_schedule(self):
+    def set_up_schedule_semester(self) -> None:
         """
-        sets up the crontab schedule for the recordings
-        :return:
+        sets up the schedule for all semesterCourses associated with this semester
+        :return: None
         """
-        for semester_class in SemesterCourse.objects.filter(semester_id=self.id):
-            for schedule_item in SemesterCourseMeetingItem.objects.filter(schedule_id=semester_class.schedule_id):
-                schedule, _ = CrontabSchedule.objects.get_or_create(
-                    minute=schedule_item.from_time.minute,
-                    hour=schedule_item.from_time.hour,
-                    day_of_week=schedule_item.day,
-                    day_of_month='*'
-                )
-
-                room_recorder = Recorder.objects.get(room_id=semester_class.course.room_id)
-
-                PeriodicTask.objects.get_or_create(
-                    crontab = schedule,
-                    name = f'{str(semester_class.course)} - {schedule_item.day}',
-                    task = 'tasks.record_video',
-                    kwargs = {
-                        'file_path': f'{str(semester_class.course)}',
-                        'id': room_recorder.id,
-                        'stop_time': schedule_item.to_time,
-                        'course_id': semester_class.id
-                    },
-                    queue = room_recorder.queue_name
-                )
+        for semester_course in SemesterCourse.objects.filter(semester=self):
+            semester_course.set_schedule()
