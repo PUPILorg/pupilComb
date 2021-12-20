@@ -6,6 +6,8 @@ from apps.base.models.SemesterCourse import SemesterCourse
 
 import datetime
 
+import apps.base.tests.data_factory as data_factory
+
 class SemesterTestCase(TestCaseWithData):
 
     def set_schedule_utils(self, semester_course):
@@ -38,6 +40,29 @@ class SemesterTestCase(TestCaseWithData):
             )
 
     def test_set_schedule_semester(self):
+        course_section = data_factory.CourseSectionFactory(
+            room = self.room
+        )
+
+        semester_course = data_factory.SemesterCourseFactory(
+            semester = self.semester,
+            schedule = self.schedule,
+            course_section = course_section
+        )
+
+        data_factory.SemesterCourseMeetingItemFactory(
+            day = 1,
+            semester_course = semester_course
+        )
+        data_factory.SemesterCourseMeetingItemFactory(
+            day = 3,
+            semester_course = semester_course
+        )
+        data_factory.SemesterCourseMeetingItemFactory(
+            day = 5,
+            semester_course = semester_course
+        )
+
         self.semester.set_up_schedule_semester()
 
         for semester_course in SemesterCourse.objects.filter(semester=self.semester):
