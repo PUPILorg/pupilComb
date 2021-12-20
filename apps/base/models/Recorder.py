@@ -11,7 +11,7 @@ class Recorder(models.Model):
     is_active = models.BooleanField(default=True)
     camera_path = models.CharField(max_length=50)
 
-    room = models.ForeignKey('base.Room', on_delete=models.CASCADE)
+    room = models.OneToOneField('base.Room', on_delete=models.CASCADE)
 
     queue_name = models.CharField(null=False, blank=True, max_length=100, unique=True, editable=False)
 
