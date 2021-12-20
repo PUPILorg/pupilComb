@@ -53,4 +53,4 @@ class SemesterAdmin(admin.ModelAdmin):
 
     def set_schedule(self, request, queryset: Semester):
         for query in queryset:
-            query.set_up_schedule()
+            query.set_up_schedule_semester()
