@@ -1,6 +1,10 @@
 import apps.base.tests.data_factory as data_factory
 
-if __name__ == "__main__":
+def set_up_data():
+    '''
+    run this from the python console
+    :return:
+    '''
     semester = data_factory.SemesterFactory()
     schedule = data_factory.ScheduleFactory()
     room = data_factory.RoomFactory()

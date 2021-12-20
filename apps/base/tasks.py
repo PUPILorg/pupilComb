@@ -8,12 +8,12 @@ def record_video(pk: int, file_path: str, stop_time, semester_course_id: int) ->
 
     This task will be scheduled using a PeriodicTask on the times that are dedicated by the schedule
 
-    celery task for recording on the pi
+    celery task for recording on the recorder
     :param semester_course_id: id for the semester course
     :param pk: primary_key of the raspberry pi we want to record on
     :param file_path: file_path where the recording should be stored
     :param stop_time: when the recording should stop
-    :return: nothing
+    :return: None
     """
     rpi = Recorder.objects.get(id=pk)
     file_path += f'--{timezone.now().date()}'

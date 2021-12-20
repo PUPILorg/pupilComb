@@ -42,5 +42,6 @@ class SemesterCourse(models.Model):
                 'stop_time': to_time,
                 'semester_course_id': self.id
             },
-            queue=recorder.queue_name
+            queue=recorder.queue_name,
+            expires=self.schedule.to_date
         )
