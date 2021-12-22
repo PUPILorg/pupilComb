@@ -10,6 +10,7 @@ class Resolution(enum.Enum):
 class Encoding(enum.Enum):
 
     ENCODING_H264 = 'h264'
+    ENCODING_MJPEG = 'mjpeg'
 
 class Recording:
 
@@ -29,4 +30,3 @@ class Recording:
 
     def start(self):
         subprocess.run(self._base_command, shell=True)
-#tiny change
