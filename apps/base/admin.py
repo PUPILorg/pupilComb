@@ -11,6 +11,16 @@ from .models.Media import Media
 from .models.CourseItems import CourseItems
 from .models.Semester import Semester
 
+
+class AllFieldsAdmin(admin.ModelAdmin):
+    """
+    parent class that shows all fields in the list display
+    """
+    def __init__(self, model, admin_site):
+        self.list_display = [field.name for field in model._meta.fields if field.name != "id"]
+        self.list_display.insert(0, '__str__')
+        super(AllFieldsAdmin, self).__init__(model, admin_site)
+
 #inline models
 class CourseItemInline(admin.TabularInline):
     model = CourseItems
@@ -27,27 +37,27 @@ class RoomAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Recorder)
-class RaspberryPiAdmin(admin.ModelAdmin):
+class RecorderAdmin(AllFieldsAdmin):
     readonly_fields = ('queue_name',)
 
 @admin.register(SemesterCourse)
-class SemesterCourseAdmin(admin.ModelAdmin):
+class SemesterCourseAdmin(AllFieldsAdmin):
     inlines =  (SemesterCourseMeetingItemInline, CourseItemInline)
 
 @admin.register(Course)
-class CourseAdmin(admin.ModelAdmin):
+class CourseAdmin(AllFieldsAdmin):
     inlines = (CourseSectionInline, )
 
 @admin.register(Schedule)
-class ScheduleAdmin(admin.ModelAdmin):
+class ScheduleAdmin(AllFieldsAdmin):
     pass
 
 @admin.register(Media)
-class MediaAdmin(admin.ModelAdmin):
+class MediaAdmin(AllFieldsAdmin):
     pass
 
 @admin.register(Semester)
-class SemesterAdmin(admin.ModelAdmin):
+class SemesterAdmin(AllFieldsAdmin):
 
     actions = ['set_schedule',]
 
