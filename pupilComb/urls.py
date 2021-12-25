@@ -20,4 +20,5 @@ from baton.autodiscover import admin
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('baton/', include('baton.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
