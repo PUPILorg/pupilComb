@@ -78,6 +78,9 @@ class CourseItemsFactory(DjangoModelFactory):
     media = factory.SubFactory(MediaFactory)
 
 class SemesterCourseMeetingItemFactory(DjangoModelFactory):
+    """
+    make sure to set the day when instantiating the semester course
+    """
     class Meta:
         model = 'base.SemesterCourseMeetingItem'
 
@@ -90,3 +93,16 @@ class SemesterCourseMeetingItemFactory(DjangoModelFactory):
 
     from_time = factory.LazyFunction(timezone.now)
     to_time = factory.LazyFunction(time_plus_one_hour)
+
+class InputFactory(DjangoModelFactory):
+    """
+    make sure to set the path_for_input when creating the InputFactory
+    """
+    class Meta:
+        model = 'base.Input'
+
+    recorder = factory.SubFactory(RecorderFactory)
+    path_to_input = factory.fuzzy.FuzzyText('/dev/video0')
+
+    codec = factory.fuzzy.FuzzyChoice('h264')
+    file_container = factory.fuzzy.FuzzyChoice('mp4')

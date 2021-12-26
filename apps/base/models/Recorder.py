@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-from apps.base.utils.recording_utils import Recording
+from apps.base.utils.recording.recording_utils import Recording
 from .Media import Media
 from .CourseItems import CourseItems
 
@@ -30,7 +30,7 @@ class Recorder(models.Model):
         """
         duration = (end_time - timezone.now()).seconds
         recording = Recording(src=self.camera_path, duration=duration, file_path=file_path)
-        recording.start()
+        recording.record()
 
         media = Media.objects.create(file=file_path)
         CourseItems.objects.create(semester_course_id=semester_course_id, media_id=media.id)

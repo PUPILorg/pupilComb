@@ -6,6 +6,9 @@ from apps.base.models.Media import Media
 from apps.base.models.CourseItems import CourseItems
 
 class RecorderOnDeviceTestCase(TestCaseWithData):
+    """
+    ALL ACTUAL RECORDING UTILITY SHOULD BE TESTED IN test_recording_utils.py
+    """
 
     test_video_folder = f'{BASE_DIR}/apps/base/pi_tests/recorder_onDevice_test_videos/'
 
@@ -19,22 +22,37 @@ class RecorderOnDeviceTestCase(TestCaseWithData):
         os.rmdir(cls.test_video_folder)
 
     def test_record(self):
-        file_path =f'{self.test_video_folder}recorder_output.mp4'
-        self.recorder.record(file_path=file_path,
-                             end_time=timezone.now() + timezone.timedelta(seconds=15),
+        self.recorder.record(folder=self.test_video_folder,
+                             end_time=timezone.now() + timezone.timedelta(seconds=30),
                              semester_course_id=self.semester_course.id)
+
+        filepath_folder = f'{self.test_video_folder}{self.semester_course.id}/{timezone.now().date()}/'
 
         self.assertTrue(
             Media.objects.filter(
-                file_path=file_path
+                file=f'{filepath_folder}webcam.mp4'
             ).exists()
         )
 
-        media = Media.objects.filter(file_path=file_path)
+        self.assertTrue(
+            Media.objects.filter(
+                file=f'{filepath_folder}screen.mov'
+            ).exists()
+        )
+
+        media_webcam = Media.objects.get(file=f'{filepath_folder}webcam.mp4')
+        media_screen = Media.objects.get(file=f'{filepath_folder}screen.mov')
 
         self.assertTrue(
             CourseItems.objects.filter(
-                media_id=media.id,
+                media_id=media_webcam.id,
                 semester_course_id=self.semester_course.id
-            )
+            ).exists()
+        )
+
+        self.assertTrue(
+            CourseItems.objects.filter(
+                media_id=media_screen.id,
+                semester_course_id=self.semester_course.id
+            ).exists()
         )

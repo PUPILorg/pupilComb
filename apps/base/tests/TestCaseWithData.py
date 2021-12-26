@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 import apps.base.tests.data_factory as data_factory
+from apps.base.utils.recording.enums import Codec, VideoContainer
 
 class TestCaseWithData(TestCase):
     """
@@ -56,4 +57,16 @@ class TestCaseWithData(TestCase):
         cls.semester_course_meeting_F = data_factory.SemesterCourseMeetingItemFactory(
             day = 5,
             semester_course = cls.semester_course
+        )
+        cls.camera_input = data_factory.InputFactory(
+            recorder = cls.recorder,
+            path_to_input = '/dev/video2',
+            codec = Codec.CODEC_H264,
+            file_container = VideoContainer.MP4
+        )
+        cls.video_capture_input = data_factory.InputFactory(
+            recorder = cls.recorder,
+            path_to_input = '/dev/video0',
+            codec = Codec.CODEC_MJPEG,
+            file_container = VideoContainer.MOV
         )
