@@ -4,6 +4,14 @@ from apps.base.utils.recording.enums import Codec, VideoContainer
 
 class Input(models.Model):
 
+    TYPE_webcam = 0
+    TYPE_video_capture = 1
+
+    TYPE_CHOICES = [
+        (TYPE_webcam, 'webcam'),
+        (TYPE_video_capture, 'video_capture')
+    ]
+
     recorder = models.ForeignKey('base.Recorder', on_delete=models.CASCADE)
     path_to_input = models.CharField(max_length=20)
     codec = models.CharField(
@@ -13,6 +21,10 @@ class Input(models.Model):
     file_container = models.CharField(
         max_length=255,
         choices=VideoContainer.choices()
+    )
+    type_device = models.IntegerField(
+        default=0,
+        choices=TYPE_CHOICES
     )
 
     class Meta:

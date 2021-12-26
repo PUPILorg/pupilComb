@@ -14,7 +14,7 @@ class RecorderFactory(DjangoModelFactory):
     class Meta:
         model = 'base.Recorder'
 
-    camera_path = '/dev/video0'
+    is_active = True
     room = factory.SubFactory(RoomFactory)
 
 class CourseFactory(DjangoModelFactory):
@@ -30,12 +30,6 @@ class CourseSectionFactory(DjangoModelFactory):
     course = factory.SubFactory(CourseFactory)
     section_num = factory.Faker('pyint', min_value=0, max_value=999)
     room = factory.SubFactory(RoomFactory)
-
-class MediaFactory(DjangoModelFactory):
-    class Meta:
-        model = 'base.Media'
-
-    file = factory.Faker('file_path', category='video')
 
 class SemesterFactory(DjangoModelFactory):
     class Meta:
@@ -69,13 +63,12 @@ class SemesterCourseFactory(DjangoModelFactory):
     schedule = factory.SubFactory(ScheduleFactory)
 
 
-class CourseItemsFactory(DjangoModelFactory):
+class SemesterCourseRecordingItem(DjangoModelFactory):
     class Meta:
-        model = 'base.CourseItems'
+        model = 'base.SemesterCourseRecordingItem'
 
     semester_course = factory.SubFactory(SemesterCourseFactory)
     date = factory.LazyFunction(timezone.now().date)
-    media = factory.SubFactory(MediaFactory)
 
 class SemesterCourseMeetingItemFactory(DjangoModelFactory):
     """
@@ -106,3 +99,11 @@ class InputFactory(DjangoModelFactory):
 
     codec = factory.fuzzy.FuzzyChoice('h264')
     file_container = factory.fuzzy.FuzzyChoice('mp4')
+    type_device = factory.Faker('pyint', min_value=0, max_value=1)
+
+class MediaFactory(DjangoModelFactory):
+    class Meta:
+        model = 'base.Media'
+
+    semester_course_recording_item = factory.SubFactory(SemesterCourseRecordingItem)
+    file = factory.Faker('file_path', category='video')

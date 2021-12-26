@@ -3,6 +3,7 @@ from django.test import TestCase
 import apps.base.tests.data_factory as data_factory
 from apps.base.utils.recording.enums import Codec, VideoContainer
 
+
 class TestCaseWithData(TestCase):
     """
     Extension of the default django TestCase that sets up data in the DB that can be used for all the server_tests
@@ -29,44 +30,45 @@ class TestCaseWithData(TestCase):
         cls.schedule = data_factory.ScheduleFactory()
         cls.room = data_factory.RoomFactory()
         cls.recorder = data_factory.RecorderFactory(
-            room = cls.room
+            room=cls.room
         )
         cls.course = data_factory.CourseFactory()
         cls.course_section = data_factory.CourseSectionFactory(
-            course = cls.course,
-            room = cls.room
+            course=cls.course,
+            room=cls.room
         )
         cls.semester_course = data_factory.SemesterCourseFactory(
-            semester = cls.semester,
-            course_section = cls.course_section,
-            schedule = cls.schedule
+            semester=cls.semester,
+            course_section=cls.course_section,
+            schedule=cls.schedule
         )
-        cls.media = data_factory.MediaFactory()
-        cls.course_item = data_factory.CourseItemsFactory(
-            semester_course = cls.semester_course,
-            media = cls.media
+        cls.semester_course_recording_item = data_factory.SemesterCourseRecordingItem(
+            semester_course=cls.semester_course,
+        )
+        cls.media = data_factory.MediaFactory(
+            semester_course_recording_item=cls.semester_course_recording_item
         )
         cls.semester_course_meeting_M = data_factory.SemesterCourseMeetingItemFactory(
-            day = 1,
-            semester_course = cls.semester_course
+            day=1,
+            semester_course=cls.semester_course
         )
         cls.semester_course_meeting_W = data_factory.SemesterCourseMeetingItemFactory(
-            day = 3,
-            semester_course = cls.semester_course
+            day=3,
+            semester_course=cls.semester_course
         )
         cls.semester_course_meeting_F = data_factory.SemesterCourseMeetingItemFactory(
-            day = 5,
-            semester_course = cls.semester_course
+            day=5,
+            semester_course=cls.semester_course
         )
         cls.camera_input = data_factory.InputFactory(
-            recorder = cls.recorder,
-            path_to_input = '/dev/video2',
-            codec = Codec.CODEC_H264,
-            file_container = VideoContainer.MP4
+            recorder=cls.recorder,
+            path_to_input='/dev/video2',
+            codec=Codec.CODEC_H264,
+            file_container=VideoContainer.MP4
         )
         cls.video_capture_input = data_factory.InputFactory(
-            recorder = cls.recorder,
-            path_to_input = '/dev/video0',
-            codec = Codec.CODEC_MJPEG,
-            file_container = VideoContainer.MOV
+            recorder=cls.recorder,
+            path_to_input='/dev/video0',
+            codec=Codec.CODEC_MJPEG,
+            file_container=VideoContainer.MOV
         )

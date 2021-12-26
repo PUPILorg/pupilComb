@@ -8,7 +8,7 @@ from .models.CourseSection import CourseSection
 from .models.Course import Course
 from .models.Schedule import Schedule
 from .models.Media import Media
-from .models.CourseItems import CourseItems
+from .models.SemesterCourseRecordingItem import SemesterCourseRecordingItem
 from .models.Semester import Semester
 from .models.Input import Input
 
@@ -22,8 +22,9 @@ class AllFieldsAdmin(admin.ModelAdmin):
         super(AllFieldsAdmin, self).__init__(model, admin_site)
 
 #inline models
-class CourseItemInline(admin.TabularInline):
-    model = CourseItems
+class SemesterCourseRecordingItemInLine(admin.TabularInline):
+    model = SemesterCourseRecordingItem
+
 
 class SemesterCourseMeetingItemInline(admin.TabularInline):
     model = SemesterCourseMeetingItem
@@ -33,6 +34,9 @@ class CourseSectionInline(admin.TabularInline):
 
 class InputsInLine(admin.TabularInline):
     model = Input
+
+class MediaInLine(admin.TabularInline):
+    model = Media
 
 # Register your models here.
 @admin.register(Room)
@@ -46,7 +50,11 @@ class RecorderAdmin(AllFieldsAdmin):
 
 @admin.register(SemesterCourse)
 class SemesterCourseAdmin(AllFieldsAdmin):
-    inlines =  (SemesterCourseMeetingItemInline, CourseItemInline)
+    inlines =  (SemesterCourseMeetingItemInline, SemesterCourseRecordingItemInLine)
+
+@admin.register(SemesterCourseRecordingItem)
+class SemesterCourseRecordingAdmin(AllFieldsAdmin):
+    inlines = (MediaInLine, )
 
 @admin.register(Course)
 class CourseAdmin(AllFieldsAdmin):
@@ -54,10 +62,6 @@ class CourseAdmin(AllFieldsAdmin):
 
 @admin.register(Schedule)
 class ScheduleAdmin(AllFieldsAdmin):
-    pass
-
-@admin.register(Media)
-class MediaAdmin(AllFieldsAdmin):
     pass
 
 @admin.register(Semester)

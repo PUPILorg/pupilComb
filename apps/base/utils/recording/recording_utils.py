@@ -5,9 +5,10 @@ class Recording:
 
     _base_command: str = f'ffmpeg '
 
-    def __init__(self, webcam_src: str, video_capture_src: str , webcam_output_file: str, video_capture_output_file: str,
-                 duration: int, resolution: Resolution = Resolution.RES_1920x1080, webcam_codec: Codec = Codec.CODEC_H264,
-                 video_capture_codec: Codec = Codec.CODEC_MJPEG):
+    def __init__(self, webcam_src: str, video_capture_src: str, webcam_output_file: str, video_capture_output_file: str,
+                 duration: int, resolution: Resolution = Resolution.RES_1920x1080,
+                 webcam_codec: Codec = Codec.CODEC_H264,
+                 video_capture_codec: Codec = Codec.CODEC_MJPEG) -> None:
         """
 
         sets up the class for the recording

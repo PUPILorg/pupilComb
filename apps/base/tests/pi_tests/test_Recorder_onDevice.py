@@ -3,7 +3,7 @@ import os
 from pupilComb.settings import BASE_DIR
 from django.utils import timezone
 from apps.base.models.Media import Media
-from apps.base.models.CourseItems import CourseItems
+from apps.base.models.SemesterCourseRecordingItem import SemesterCourseRecordingItem
 
 class RecorderOnDeviceTestCase(TestCaseWithData):
     """
@@ -44,14 +44,14 @@ class RecorderOnDeviceTestCase(TestCaseWithData):
         media_screen = Media.objects.get(file=f'{filepath_folder}screen.mov')
 
         self.assertTrue(
-            CourseItems.objects.filter(
+            SemesterCourseRecordingItem.objects.filter(
                 media_id=media_webcam.id,
                 semester_course_id=self.semester_course.id
             ).exists()
         )
 
         self.assertTrue(
-            CourseItems.objects.filter(
+            SemesterCourseRecordingItem.objects.filter(
                 media_id=media_screen.id,
                 semester_course_id=self.semester_course.id
             ).exists()
