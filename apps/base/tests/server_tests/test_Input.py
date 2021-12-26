@@ -25,6 +25,15 @@ class InputTestCase(TestCaseWithData):
                 file_container=VideoContainer.MOV
             )
 
+        self.assertFalse(
+            Input.objects.filter(
+                recorder=self.recorder,
+                path_to_input='/dev/video1',
+                codec=Codec.CODEC_H264,
+                file_container=VideoContainer.MOV
+            ).exists()
+        )
+
     def test_mismatch_mjpeg_mp4(self):
         with self.assertRaises(AttributeError):
             Input.objects.create(
@@ -33,3 +42,12 @@ class InputTestCase(TestCaseWithData):
                 codec=Codec.CODEC_MJPEG,
                 file_container=VideoContainer.MP4
             )
+
+        self.assertFalse(
+            Input.objects.filter(
+                recorder=self.recorder,
+                path_to_input='/dev/video1',
+                codec=Codec.CODEC_MJPEG,
+                file_container=VideoContainer.MP4
+            ).exists()
+        )

@@ -20,3 +20,10 @@ class Input(models.Model):
 
     def __str__(self) -> str:
         return f'{self.recorder.id} -- {self.path_to_input}'
+
+    def save(self, *args, **kwargs):
+        if self.file_container == VideoContainer.MOV and self.codec == Codec.CODEC_H264 or \
+                self.file_container == VideoContainer.MP4 and self.codec == Codec.CODEC_MJPEG:
+            raise AttributeError('container codec mismatch')
+
+        super(Input, self).save(*args, **kwargs)
