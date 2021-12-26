@@ -8,3 +8,4 @@ from .SemesterCourseMeetingItem import SemesterCourseMeetingItem as _ScheduleIte
 from .Semester import Semester as _Semester
 from .SemesterCourse import SemesterCourse as _SemesterCourse
 from .Room import Room as _Room
+from .Input import Input as _Input

@@ -10,7 +10,7 @@ from .models.Schedule import Schedule
 from .models.Media import Media
 from .models.CourseItems import CourseItems
 from .models.Semester import Semester
-
+from .models.Input import Input
 
 class AllFieldsAdmin(admin.ModelAdmin):
     """
@@ -31,6 +31,9 @@ class SemesterCourseMeetingItemInline(admin.TabularInline):
 class CourseSectionInline(admin.TabularInline):
     model = CourseSection
 
+class InputsInLine(admin.TabularInline):
+    model = Input
+
 # Register your models here.
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
@@ -39,6 +42,7 @@ class RoomAdmin(admin.ModelAdmin):
 @admin.register(Recorder)
 class RecorderAdmin(AllFieldsAdmin):
     readonly_fields = ('queue_name',)
+    inlines = [InputsInLine, ]
 
 @admin.register(SemesterCourse)
 class SemesterCourseAdmin(AllFieldsAdmin):

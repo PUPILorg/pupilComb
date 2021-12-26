@@ -1,18 +1,32 @@
-import cv2
+from videoprops import get_video_properties
+from dataclasses import dataclass
 
-def get_video_props(filepath: str) -> (int, int, float, float):
+@dataclass
+class VideoProp:
+    codec : str
+    width : int
+    height : int
+    fps : float
+    duration: int
+
+
+def get_props(src: str) -> VideoProp:
     """
-    gets properties from a video
-    :param filepath: filepath to the video
-    :return: (height : int, width: int, fps: float, video_length: float)
+
+    get the video properties
+
+    :param src: string source of the video file
+    :return: VideoProp dataclass or runtime error if the file is not found
     """
-    video = cv2.VideoCapture(filepath)
-    height = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
-    width = video.get(cv2.CAP_PROP_FRAME_WIDTH)
 
+    props = get_video_properties(src)
 
-    framecount = video.get(cv2.CAP_PROP_FRAME_COUNT)
-    fps = video.get(cv2.CAP_PROP_FPS)
-    video_length = framecount / fps
+    video_props = {
+        'codec' : props['codec'],
+        'width' : props['width'],
+        'height': props['height'],
+        'fps': eval(props['avg_frame_rate']),
+        'duration': int(eval(props['duration']))
+    }
 
-    return height, width, fps, video_length
+    return VideoProp(**video_props)
