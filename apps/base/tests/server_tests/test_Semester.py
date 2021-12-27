@@ -28,9 +28,9 @@ class SemesterTestCase(TestCaseWithData):
             self.assertTrue(
                 PeriodicTask.objects.filter(
                     name=f'{semester_course.id}',
-                    task='tasks.record_video',
+                    task='apps.base.tasks.record_video',
                     kwargs={
-                        'file_path': f'{str(semester_course.course_section)}',
+                        'file_path': f'{str(semester_course.id)}/',
                         'id': self.recorder.id,
                         'stop_time': to_time,
                         'semester_course_id': semester_course.id

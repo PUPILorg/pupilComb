@@ -35,7 +35,7 @@ class SemesterCourse(models.Model):
         PeriodicTask.objects.get_or_create(
             crontab = crontab_schedule,
             name=f'{self.id}',
-            task='tasks.record_video',
+            task='apps.base.tasks.record_video',
             kwargs={
                 'file_path': f'{str(self.id)}/',
                 'id': recorder.id,

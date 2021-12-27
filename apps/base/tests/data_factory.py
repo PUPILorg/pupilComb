@@ -106,4 +106,5 @@ class MediaFactory(DjangoModelFactory):
         model = 'base.Media'
 
     semester_course_recording_item = factory.SubFactory(SemesterCourseRecordingItem)
+    is_uploaded = factory.Faker('bool')
     file = factory.Faker('file_path', category='video')

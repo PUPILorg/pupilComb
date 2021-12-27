@@ -11,6 +11,5 @@ class RecorderTestCase(TestCaseWithData):
     def test_two_recorder_one_room_exception(self):
         with self.assertRaises(django.db.IntegrityError):
             Recorder.objects.create(
-                camera_path='/dev/video0',
                 room=self.room
             )
