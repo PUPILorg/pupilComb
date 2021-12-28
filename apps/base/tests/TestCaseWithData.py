@@ -47,7 +47,6 @@ class TestCaseWithData(TestCase):
         )
         cls.media = data_factory.MediaFactory(
             semester_course_recording_item=cls.semester_course_recording_item,
-            is_uploaded = False
         )
         cls.semester_course_meeting_M = data_factory.SemesterCourseMeetingItemFactory(
             day=1,

@@ -16,6 +16,8 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+use_s3 = True
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     'apps.base',
     'baton.autodiscover',
     'debug_toolbar',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -153,11 +156,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-STATIC_URL = '/static/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -169,10 +167,6 @@ CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_CREATE_MISSING_QUEUS = True
 
-#static files
-
-STATIC_ROOT = f'{BASE_DIR}/static/'
-
 # Baton
 
 BATON = {
@@ -182,3 +176,22 @@ BATON = {
 
 import mimetypes
 mimetypes.add_type("application/javascript", ".js", True)
+
+# static files
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# AWS S3 settings
+if use_s3:
+    AWS_ACCESS_KEY_ID = 'AKIAVLDLTOWHZPJUGKM4'
+    AWS_SECRET_ACCESS_KEY = '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'
+    AWS_STORAGE_BUCKET_NAME = 'pupil-backend'
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+    PUBLIC_MEDIA_LOCATION = 'recordings'
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/"
+    DEFAULT_FILE_STORAGE = 'pupilComb.storage_backends.PublicMediaStorage'
