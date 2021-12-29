@@ -43,10 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_celery_beat',
+    'debug_toolbar',
+    'storages',
     'apps.base',
     'baton.autodiscover',
-    'debug_toolbar',
-    'storages'
 ]
 
 MIDDLEWARE = [
