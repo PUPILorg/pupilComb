@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 
 from apps.base.utils.recording.recording_utils import Recording
+from apps.base.utils.data_utils.uploading_utils import UploadToS3Threaded
+
 from .Media import Media
 from .SemesterCourseRecordingItem import SemesterCourseRecordingItem
 from .Input import Input
@@ -33,22 +35,29 @@ class Recorder(models.Model):
         webcam_input = inputs.get(type_device=Input.TYPE_webcam)
         video_capture_input = inputs.get(type_device=Input.TYPE_video_capture)
 
-        webcam_file = f'{file_folder}webcam.{webcam_input.file_container}'
-        video_capture_file = f'{file_folder}video_capture.{video_capture_input.file_container}'
+        webcam_file_s3 = f'{file_folder}webcam.{webcam_input.file_container}'
+        video_capture_file_s3 = f'{file_folder}video_capture.{video_capture_input.file_container}'
+
+        local_webcam_file = f'webcam_{semester_course_id}_{timezone.now()}.{webcam_input.file_container}'
+        local_video_capture_file = f'video_capture_{semester_course_id}_{timezone.now()}.{video_capture_input.file_container}'
 
         recording = Recording(webcam_src=webcam_input.path_to_input, video_capture_src=video_capture_input.path_to_input,
-                              webcam_output_file=webcam_file, video_capture_output_file=video_capture_file,
+                              webcam_output_file=local_webcam_file, video_capture_output_file=local_video_capture_file,
                               duration=duration, webcam_codec=webcam_input.codec,
                               video_capture_codec=video_capture_input.codec)
         recording.record()
 
         scri = SemesterCourseRecordingItem.objects.create(semester_course_id=semester_course_id)
 
-        Media.objects.bulk_create([
-            Media(semester_course_recording_item=scri, file=webcam_file),
-            Media(semester_course_recording_item=scri, file=video_capture_file)
-        ])
+        media_webcam = Media.objects.create(semester_course_recording_item=scri, file=webcam_file_s3),
+        media_video_capture = Media.objects.create(semester_course_recording_item=scri, file=local_video_capture_file)
 
+        webcam_upload = UploadToS3Threaded(local_file=local_webcam_file, upload_path=webcam_file_s3, media_id=media_webcam.id)
+        video_capture_upload = UploadToS3Threaded(local_file=local_video_capture_file, upload_path=video_capture_file_s3,
+                                                  media_id=media_video_capture.id)
+
+        webcam_upload.start()
+        video_capture_upload.start()
 
     def set_active(self) -> None:
         """

@@ -5,6 +5,8 @@ from django.utils import timezone
 from apps.base.models.Media import Media
 from apps.base.models.SemesterCourseRecordingItem import SemesterCourseRecordingItem
 
+from django.core.files.storage import default_storage
+
 class RecorderOnDeviceTestCase(TestCaseWithData):
     """
     ALL ACTUAL RECORDING UTILITY SHOULD BE TESTED IN test_recording_utils.py
