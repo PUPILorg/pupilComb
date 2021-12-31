@@ -1,6 +1,9 @@
 from django.db import models
-from .SemesterCourseMeetingItem import SemesterCourseMeetingItem
+
 from django_celery_beat.models import CrontabSchedule, PeriodicTask
+from django.utils import timezone
+
+from .SemesterCourseMeetingItem import SemesterCourseMeetingItem
 from .Recorder import Recorder
 
 class SemesterCourse(models.Model):
@@ -20,8 +23,8 @@ class SemesterCourse(models.Model):
         """
         scmi_queryset = SemesterCourseMeetingItem.objects.filter(semester_course=self)
         days : list[int] = list(scmi_queryset.values_list('day', flat=True))
-        from_time = scmi_queryset[0].from_time
-        to_time = scmi_queryset[0].to_time
+        from_time = scmi_queryset[0].from_time - timezone.timedelta(minutes=1)
+        to_time = scmi_queryset[0].to_time + timezone.timedelta(minutes=1)
         recorder = Recorder.objects.get(
             room_id=self.course_section.room_id
         )

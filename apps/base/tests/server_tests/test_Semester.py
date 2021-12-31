@@ -1,5 +1,7 @@
 from apps.base.tests.TestCaseWithData import TestCaseWithData
+
 from django_celery_beat.models import PeriodicTask, CrontabSchedule
+from django.utils import timezone
 
 from apps.base.models.SemesterCourseMeetingItem import SemesterCourseMeetingItem
 from apps.base.models.SemesterCourse import SemesterCourse
@@ -13,8 +15,10 @@ class SemesterTestCase(TestCaseWithData):
     def set_schedule_utils(self, semester_course):
             days = list(
                 SemesterCourseMeetingItem.objects.filter(semester_course=semester_course).values_list('day', flat=True))
-            from_time: datetime = SemesterCourseMeetingItem.objects.filter(semester_course=semester_course)[0].from_time
-            to_time: datetime = SemesterCourseMeetingItem.objects.filter(semester_course=semester_course)[0].to_time
+            from_time: datetime = SemesterCourseMeetingItem.objects.filter(semester_course=semester_course)[0].from_time \
+                                  - timezone.timedelta(minutes=1)
+            to_time: datetime = SemesterCourseMeetingItem.objects.filter(semester_course=semester_course)[0].to_time \
+                                + timezone.timedelta(minutes=1)
 
             self.assertTrue(
                 CrontabSchedule.objects.filter(
