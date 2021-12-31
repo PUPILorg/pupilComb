@@ -13,3 +13,4 @@ class RecorderTestCase(TestCaseWithData):
             Recorder.objects.create(
                 room=self.room
             )
+

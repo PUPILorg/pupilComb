@@ -189,12 +189,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 if use_s3:
     AWS_ACCESS_KEY_ID = config.get('S3', 'AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = config.get('S3', 'AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = 'pupil-backend'
+    AWS_STORAGE_BUCKET_NAME = config.get('S3', 'AWS_STORAGE_BUCKET_NAME')
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
     AWS_S3_OBJECT_PARAMETERS = {
         'CacheControl': 'max-age=86400',
     }
-    PUBLIC_MEDIA_LOCATION = 'recordings'
-    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/"
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
     DEFAULT_FILE_STORAGE = 'pupilComb.storage_backends.PublicMediaStorage'
