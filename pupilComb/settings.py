@@ -12,18 +12,21 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from configparser import RawConfigParser
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 use_s3 = True
 
+config = RawConfigParser()
+config.read(f'{BASE_DIR}/pupilComb/settings_local.ini')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qoww^p!+u2gpxqi!8(r5i*_p(y%*idx+v7!=b65apk(-h7(p%n'
+SECRET_KEY = config.get('secrets', 'SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -109,15 +112,15 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql',
 
-        'NAME': 'local',
+        'NAME': config.get('database', 'NAME'),
 
-        'USER': 'postgres',
+        'USER': config.get('database', 'USER'),
 
-        'PASSWORD': 'postgres',
+        'PASSWORD': config.get('database', 'PASSWORD'),
 
-        'HOST': 'localhost',
+        'HOST': config.get('database', 'HOST'),
 
-        'PORT': '5432',
+        'PORT': config.get('database', 'PORT'),
 
     }
 
@@ -184,8 +187,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # AWS S3 settings
 if use_s3:
-    AWS_ACCESS_KEY_ID = 'AKIAVLDLTOWHZPJUGKM4'
-    AWS_SECRET_ACCESS_KEY = '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'
+    AWS_ACCESS_KEY_ID = config.get('S3', 'AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config.get('S3', 'AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = 'pupil-backend'
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
