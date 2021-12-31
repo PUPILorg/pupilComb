@@ -40,7 +40,7 @@ class MediaTestCase(TestCaseWithData):
             with open(self.test_video, 'rb') as f:
                 default_storage.save(self.upload_location, f)
 
-        m = Media.objects.create(semester_course_recording_item=self.semester_course_recording_item,
+        m, _ = Media.objects.get_or_create(semester_course_recording_item=self.semester_course_recording_item,
                              file=self.upload_location)
 
         m.delete()
