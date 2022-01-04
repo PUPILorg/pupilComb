@@ -1,3 +1,5 @@
+import os
+
 from django.core.files.storage import default_storage
 
 import threading
@@ -25,3 +27,5 @@ class UploadToS3Threaded(threading.Thread):
 
         media = Media.objects.get(id = self.media_id)
         media.set_uploaded()
+
+        os.remove(self.local_file)
