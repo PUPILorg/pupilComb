@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 use_s3 = True
 
 config = RawConfigParser()
-config.read(f'{BASE_DIR}/pupilComb/settings_local.ini')
+config.read(f'{BASE_DIR}/pupilComb/settings.ini')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -29,7 +29,7 @@ config.read(f'{BASE_DIR}/pupilComb/settings_local.ini')
 SECRET_KEY = config.get('secrets', 'SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config.getboolean('debug', 'DEBUG')
 
 ALLOWED_HOSTS = ['localhost', '18.222.27.50', 'admin.pupil.systems']
 
@@ -77,10 +77,10 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.logging.LoggingPanel',
     'debug_toolbar.panels.redirects.RedirectsPanel',
 ]
-
-DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK" : lambda request: True,
-}
+if DEBUG:
+    DEBUG_TOOLBAR_CONFIG = {
+        "SHOW_TOOLBAR_CALLBACK" : lambda request: True,
+    }
 
 ROOT_URLCONF = 'pupilComb.urls'
 
@@ -168,7 +168,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-CELERY_CREATE_MISSING_QUEUS = True
+CELERY_CREATE_MISSING_QUEUES = True
 
 # Baton
 

@@ -118,4 +118,4 @@ dmypy.json
 apps/base/migrations/*
 /static/
 /new_user_credentials.csv
-/settings/*
+settings/recorder/

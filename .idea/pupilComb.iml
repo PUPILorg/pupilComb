@@ -17,6 +17,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
       <excludeFolder url="file://$MODULE_DIR$/static" />
       <excludeFolder url="file://$MODULE_DIR$/static/baton/app/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/settings/local" />
+      <excludeFolder url="file://$MODULE_DIR$/settings/recorder" />
+      <excludeFolder url="file://$MODULE_DIR$/settings" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
