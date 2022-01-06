@@ -40,7 +40,7 @@ class SemesterCourse(models.Model):
             name=f"{self.id}",
             task="apps.base.tasks.record_video",
             kwargs={
-                "file_path": f"{str(self.id)}/",
+                "file_folder": f"{str(self.id)}/",
                 "id": recorder.id,
                 "stop_time": to_time,
                 "semester_course_id": self.id
