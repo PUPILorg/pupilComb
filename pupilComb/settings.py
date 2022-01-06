@@ -167,7 +167,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_BROKER_URL = config.get('celery', 'CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = config.get('celery', 'CELERY_RESULTS_BACKEND')
+CELERY_RESULT_BACKEND = config.get('celery', 'CELERY_RESULT_BACKEND')
 CELERY_CREATE_MISSING_QUEUES = True
 
 # Baton
