@@ -4,7 +4,7 @@ class EnumWithChoice(Enum):
 
     @classmethod
     def choices(cls):
-        return tuple((tag.name, tag.value) for tag in cls)
+        return tuple((tag.value, tag.value) for tag in cls)
 
 class Codec(EnumWithChoice):
 
