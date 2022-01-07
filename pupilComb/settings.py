@@ -31,7 +31,7 @@ SECRET_KEY = config.get('secrets', 'SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config.getboolean('debug', 'DEBUG')
 
-ALLOWED_HOSTS = ['localhost', '18.222.27.50', 'admin.pupil.systems']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'backend.pupil.systems']
 
 INTERNAL_IPS = ['127.0.0.1',]
 
