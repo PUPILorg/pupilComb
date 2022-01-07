@@ -31,7 +31,7 @@ class SemesterCourse(models.Model):
             room_id=self.course_section.room_id
         )
 
-        duration = to_time - from_time
+        duration = (to_time - from_time).total_seconds()
 
         crontab_schedule, _ = CrontabSchedule.objects.get_or_create(
             minute = str(from_time.minute),
