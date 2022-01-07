@@ -19,18 +19,16 @@ class Recorder(models.Model):
     def __str__(self):
         return f'{self.room}'
 
-    def record(self, file_folder :str, end_time: float, semester_course_id: int) -> None:
+    def record(self, file_folder :str, duration: float, semester_course_id: int) -> None:
         """
 
         records the video on the pi and sets up the Media and SemesterCourseRecordingItem models
 
+        :param duration: duration of the video
         :param file_folder: folder path to where the videos should be stored should end in trailing '/'
-        :param end_time: end_time of the video in datetime format
         :param semester_course_id: id of the semester_course the video is associated with
         :return: None
         """
-        duration = (end_time - timezone.now()).seconds
-
         inputs = Input.objects.filter(recorder=self)
         webcam_input = inputs.get(type_device=Input.TYPE_webcam)
         video_capture_input = inputs.get(type_device=Input.TYPE_video_capture)

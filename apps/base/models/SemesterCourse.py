@@ -6,6 +6,8 @@ from django.utils import timezone
 from .SemesterCourseMeetingItem import SemesterCourseMeetingItem
 from .Recorder import Recorder
 
+import json
+
 class SemesterCourse(models.Model):
 
     course_section = models.ForeignKey('base.CourseSection', on_delete=models.CASCADE)
@@ -29,6 +31,8 @@ class SemesterCourse(models.Model):
             room_id=self.course_section.room_id
         )
 
+        duration = to_time - from_time
+
         crontab_schedule, _ = CrontabSchedule.objects.get_or_create(
             minute = str(from_time.minute),
             hour = str(from_time.hour),
@@ -39,12 +43,13 @@ class SemesterCourse(models.Model):
             crontab = crontab_schedule,
             name=f"{self.id}",
             task="apps.base.tasks.record_video",
-            kwargs={
-                "file_folder": f"{str(self.id)}/",
+            kwargs=json.dumps({
+                "file_folder": f"{self.semester.id}/{self.id}/",
                 "pk": recorder.id,
-                "stop_time": to_time,
+                "duration": duration,
                 "semester_course_id": self.id
-            },
+            }),
+            enabled=True,
             queue=recorder.queue_name,
             expires=self.schedule.to_date
         )
