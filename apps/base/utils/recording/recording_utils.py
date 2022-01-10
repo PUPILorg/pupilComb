@@ -26,7 +26,7 @@ class Recording:
         :param video_capture_codec: codec for the video capture
         """
 
-        cam_input = f'-f v4l2 -video_size {resolution.value} -vcodec {webcam_codec} -i {webcam_src}'
+        cam_input = f'-f v4l2 -video_size {resolution} -vcodec {webcam_codec} -i {webcam_src}'
         video_capture_input = f'-f v4l2 -video_size {resolution} -vcodec {video_capture_codec} -i {video_capture_src}'
         self._base_command += f'{cam_input} {video_capture_input} -map 0 -t {duration} -vcodec copy {webcam_output_file} ' \
                               f'-map 1 -t {duration} -vcodec copy {video_capture_output_file}'
