@@ -24,7 +24,7 @@ def set_up_data():
         course_section=course_section,
         schedule=schedule
     )
-    semester_course_recording_item = data_factory.SemesterCourseRecordingItem(
+    semester_course_recording_item = data_factory.SemesterCourseRecordingItemFactory(
         semester_course=semester_course
     )
     media = data_factory.MediaFactory(

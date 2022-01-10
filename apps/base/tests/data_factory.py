@@ -63,7 +63,7 @@ class SemesterCourseFactory(DjangoModelFactory):
     schedule = factory.SubFactory(ScheduleFactory)
 
 
-class SemesterCourseRecordingItem(DjangoModelFactory):
+class SemesterCourseRecordingItemFactory(DjangoModelFactory):
     class Meta:
         model = 'base.SemesterCourseRecordingItem'
 
@@ -105,6 +105,6 @@ class MediaFactory(DjangoModelFactory):
     class Meta:
         model = 'base.Media'
 
-    semester_course_recording_item = factory.SubFactory(SemesterCourseRecordingItem)
+    semester_course_recording_item = factory.SubFactory(SemesterCourseRecordingItemFactory)
     file = factory.Faker('file_path', category='video')
     uploaded = False
