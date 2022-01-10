@@ -41,10 +41,10 @@ class SemesterCourse(models.Model):
 
         PeriodicTask.objects.get_or_create(
             crontab = crontab_schedule,
-            name=f"{self.id}",
+            name=f"{self.id}-{self}",
             task="apps.base.tasks.record_video",
             kwargs=json.dumps({
-                "file_folder": f"{self.semester.id}/{self.id}/",
+                "file_folder": f"{self.semester.id}-{self.semester}/{self.id}-{self.course_section}/",
                 "pk": recorder.id,
                 "duration": duration,
                 "semester_course_id": self.id

@@ -16,5 +16,5 @@ def record_video(pk: int, file_folder: str, duration: float, semester_course_id:
     :return: None
     """
     recorder = Recorder.objects.get(id=pk)
-    file_folder += f'{file_folder}{timezone.now().date()}/'
+    file_folder += f'{timezone.now().date()}/'
     recorder.record(file_folder=file_folder, duration=duration, semester_course_id=semester_course_id)

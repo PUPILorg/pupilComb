@@ -8,5 +8,5 @@ class CourseSection(models.Model):
     room = models.ForeignKey('base.Room', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.section_num}'
+        return f'{self.course}-{self.section_num}'
 
