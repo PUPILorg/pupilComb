@@ -166,7 +166,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # celery config
 
-CELERY_REDIS_PASSWORD = config.get('celery', 'CELERY_REDIS_PASSWORD')
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_BROKER_URL = config.get('celery', 'CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = config.get('celery', 'CELERY_RESULT_BACKEND')
