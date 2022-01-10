@@ -15,6 +15,7 @@ class UploadingToS3ThreadedTestCase(TransactionTestCase):
     test_video_file = f'{BASE_DIR}/apps/base/tests/sample_test_videos/upload_utils_test_video/out_cam.mp4'
 
     def test_upload(self):
+        #find a fix for this (and why is the data factory not working) # TODO: fix the data_factory.py
         scri = SemesterCourseRecordingItemFactory()
         media = Media.objects.create(
             semester_course_recording_item=scri,
