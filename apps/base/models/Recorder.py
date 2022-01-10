@@ -36,8 +36,8 @@ class Recorder(models.Model):
         webcam_file_s3 = f'{file_folder}webcam.{webcam_input.file_container}'
         video_capture_file_s3 = f'{file_folder}video_capture.{video_capture_input.file_container}'
 
-        local_webcam_file = f'webcam_{semester_course_id}_{timezone.now()}.{webcam_input.file_container}'
-        local_video_capture_file = f'video_capture_{semester_course_id}_{timezone.now()}.{video_capture_input.file_container}'
+        local_webcam_file = f'webcam_{semester_course_id}_{timezone.now().date()}.{webcam_input.file_container}'
+        local_video_capture_file = f'video_capture_{semester_course_id}_{timezone.now().date()}.{video_capture_input.file_container}'
 
         recording = Recording(webcam_src=webcam_input.path_to_input, video_capture_src=video_capture_input.path_to_input,
                               webcam_output_file=local_webcam_file, video_capture_output_file=local_video_capture_file,
