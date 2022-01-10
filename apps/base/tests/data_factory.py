@@ -34,8 +34,9 @@ class CourseSectionFactory(DjangoModelFactory):
 class SemesterFactory(DjangoModelFactory):
     class Meta:
         model = 'base.Semester'
+        django_get_or_create = ('semester', )
 
-    semester = 'F21'
+    semester = 'S22'
 
 class ScheduleFactory(DjangoModelFactory):
     """
