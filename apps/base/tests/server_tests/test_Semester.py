@@ -10,6 +10,8 @@ import datetime
 
 import apps.base.tests.data_factory as data_factory
 
+import json
+
 class SemesterTestCase(TestCaseWithData):
 
     def set_schedule_utils(self, semester_course):
@@ -19,6 +21,8 @@ class SemesterTestCase(TestCaseWithData):
                                   - timezone.timedelta(minutes=1)
             to_time: datetime = SemesterCourseMeetingItem.objects.filter(semester_course=semester_course)[0].to_time \
                                 + timezone.timedelta(minutes=1)
+
+            duration = (to_time - from_time).total_seconds()
 
             self.assertTrue(
                 CrontabSchedule.objects.filter(
@@ -31,15 +35,17 @@ class SemesterTestCase(TestCaseWithData):
 
             self.assertTrue(
                 PeriodicTask.objects.filter(
-                    name=f'{semester_course.id}',
-                    task='apps.base.tasks.record_video',
-                    kwargs={
-                        'file_path': f'{str(semester_course.id)}/',
-                        'id': self.recorder.id,
-                        'stop_time': to_time,
-                        'semester_course_id': semester_course.id
-                    },
-                    queue=self.recorder.queue_name
+                    name=f"{semester_course.id}",
+                    task="apps.base.tasks.record_video",
+                    kwargs=json.dumps({
+                        "file_folder": f"{self.semester.id}/{self.id}/",
+                        "pk": self.recorder.id,
+                        "duration": duration,
+                        "semester_course_id": self.id
+                    }),
+                    enabled=True,
+                    queue=self.recorder.queue_name,
+                    expires=self.schedule.to_date
                 ).exists()
             )
 

@@ -42,7 +42,7 @@ class TestCaseWithData(TestCase):
             course_section=cls.course_section,
             schedule=cls.schedule
         )
-        cls.semester_course_recording_item = data_factory.SemesterCourseRecordingItem(
+        cls.semester_course_recording_item = data_factory.SemesterCourseRecordingItemFactory(
             semester_course=cls.semester_course,
         )
         cls.media = data_factory.MediaFactory(
