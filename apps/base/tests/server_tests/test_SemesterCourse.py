@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.utils import timezone
 
 from apps.base.tests.TestCaseWithData import TestCaseWithData
 from apps.base.models.SemesterCourseMeetingItem import SemesterCourseMeetingItem
@@ -11,8 +12,8 @@ class SemesterCourseTestCase(TestCaseWithData):
 
     def set_schedule_util(self, semester_course):
         days = list(SemesterCourseMeetingItem.objects.filter(semester_course=semester_course).values_list('day', flat=True))
-        from_time: datetime = SemesterCourseMeetingItem.objects.filter(semester_course=semester_course)[0].from_time
-        to_time: datetime = SemesterCourseMeetingItem.objects.filter(semester_course=semester_course)[0].to_time
+        from_time: datetime = SemesterCourseMeetingItem.objects.filter(semester_course=semester_course)[0].from_time - timezone.timedelta(minutes=1)
+        to_time: datetime = SemesterCourseMeetingItem.objects.filter(semester_course=semester_course)[0].to_time + timezone.timedelta(minutes=1)
 
         semester_course.set_schedule()
 
@@ -29,10 +30,10 @@ class SemesterCourseTestCase(TestCaseWithData):
 
         self.assertTrue(
             PeriodicTask.objects.filter(
-                name=f"{semester_course.id}",
+                name=f"{semester_course.id}-{semester_course}",
                 task="apps.base.tasks.record_video",
                 kwargs=json.dumps({
-                    "file_folder": f"{self.semester.id}/{self.id}/",
+                    "file_folder": f"{self.semester.id}-{self.semester}/{semester_course.id}-{semester_course.course_section}/",
                     "pk": self.recorder.id,
                     "duration": duration,
                     "semester_course_id": semester_course.id

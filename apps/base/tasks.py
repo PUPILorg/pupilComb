@@ -12,7 +12,7 @@ def record_video(pk: int, file_folder: str, duration: float, semester_course_id:
     :param duration: duration of the video to record
     :param semester_course_id: id for the semester course
     :param pk: primary_key of the recorder to record on
-    :param file_folder: folder in which the videos should be stored in | ../semester_course_id/date/
+    :param file_folder: folder in which the videos should be stored in (set up automatically in the SemesterCourse)
     :return: None
     """
     recorder = Recorder.objects.get(id=pk)

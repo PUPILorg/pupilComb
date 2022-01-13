@@ -31,12 +31,18 @@ class SemesterCourse(models.Model):
             room_id=self.course_section.room_id
         )
 
+        # TODO: This is not a good solution make sure to fix this before committing it
+
+        from_time -= timezone.timedelta(hours=7)
+        to_time -= timezone.timedelta(hours=7)
+
         duration = (to_time - from_time).total_seconds()
 
         crontab_schedule, _ = CrontabSchedule.objects.get_or_create(
             minute = str(from_time.minute),
             hour = str(from_time.hour),
-            day_of_week = str(days)[1:-1]
+            day_of_week = str(days)[1:-1],
+            timezone='America/Denver'
         )
 
         PeriodicTask.objects.get_or_create(

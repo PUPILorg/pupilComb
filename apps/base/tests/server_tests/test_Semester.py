@@ -35,13 +35,13 @@ class SemesterTestCase(TestCaseWithData):
 
             self.assertTrue(
                 PeriodicTask.objects.filter(
-                    name=f"{semester_course.id}",
+                    name=f"{semester_course.id}-{semester_course}",
                     task="apps.base.tasks.record_video",
                     kwargs=json.dumps({
-                        "file_folder": f"{self.semester.id}/{self.id}/",
+                        "file_folder": f"{self.semester.id}-{self.semester}/{semester_course.id}-{semester_course.course_section}/",
                         "pk": self.recorder.id,
                         "duration": duration,
-                        "semester_course_id": self.id
+                        "semester_course_id": semester_course.id
                     }),
                     enabled=True,
                     queue=self.recorder.queue_name,
