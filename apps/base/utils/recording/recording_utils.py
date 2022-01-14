@@ -36,4 +36,6 @@ class Recording:
         starts the recording. As of now this is a blocking command
         :return: None
         """
+        print('recording started')
         subprocess.run(self._base_command, shell=True)
+        print('recording finished')
