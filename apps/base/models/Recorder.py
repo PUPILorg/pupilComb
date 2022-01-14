@@ -48,7 +48,7 @@ class Recorder(models.Model):
         scri = SemesterCourseRecordingItem.objects.create(semester_course_id=semester_course_id)
 
         media_webcam = Media.objects.create(semester_course_recording_item=scri, file=webcam_file_s3)
-        media_video_capture = Media.objects.create(semester_course_recording_item=scri, file=local_video_capture_file)
+        media_video_capture = Media.objects.create(semester_course_recording_item=scri, file=video_capture_file_s3)
 
         webcam_upload = UploadToS3Threaded(local_file=local_webcam_file, upload_path=webcam_file_s3, media_id=media_webcam.id)
         video_capture_upload = UploadToS3Threaded(local_file=local_video_capture_file, upload_path=video_capture_file_s3,
