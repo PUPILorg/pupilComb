@@ -1,6 +1,8 @@
 import subprocess
 from .enums import Resolution, Codec
 
+from pupilComb.celery import logger
+
 class Recording:
 
     _base_command: str = f'ffmpeg '
@@ -36,6 +38,6 @@ class Recording:
         starts the recording. As of now this is a blocking command
         :return: None
         """
-        print('recording started')
+        logger.debug('recording started')
         subprocess.run(self._base_command, shell=True)
-        print('recording finished')
+        logger.debug('recording finished')

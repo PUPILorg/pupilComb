@@ -2,6 +2,8 @@ import celery
 from .models.Recorder import Recorder
 from django.utils import timezone
 
+from pupilComb.celery import logger
+
 @celery.shared_task
 def record_video(pk: int, file_folder: str, duration: float, semester_course_id: int) -> None:
     """
