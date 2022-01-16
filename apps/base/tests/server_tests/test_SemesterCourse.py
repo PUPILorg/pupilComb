@@ -8,14 +8,22 @@ from django_celery_beat.models import CrontabSchedule, PeriodicTask
 
 import json
 
+from pupilComb.settings import temporary_timezone
+import pytz
+
 class SemesterCourseTestCase(TestCaseWithData):
 
     def set_schedule_util(self, semester_course):
+        tz = pytz.timezone(temporary_timezone)
+
         days = list(SemesterCourseMeetingItem.objects.filter(semester_course=semester_course).values_list('day', flat=True))
         from_time: datetime = SemesterCourseMeetingItem.objects.filter(semester_course=semester_course)[0].from_time - timezone.timedelta(minutes=1)
         to_time: datetime = SemesterCourseMeetingItem.objects.filter(semester_course=semester_course)[0].to_time + timezone.timedelta(minutes=1)
 
         semester_course.set_schedule()
+
+        from_time = from_time.astimezone(tz)
+        to_time = to_time.astimezone(tz)
 
         duration = (to_time - from_time).total_seconds()
 
@@ -24,7 +32,8 @@ class SemesterCourseTestCase(TestCaseWithData):
                 minute=from_time.minute,
                 hour=from_time.hour,
                 day_of_week=str(days)[1:-1],
-                day_of_month='*'
+                day_of_month='*',
+                timezone=temporary_timezone
             ).exists()
         )
 

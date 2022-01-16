@@ -33,4 +33,3 @@ class UploadingToS3ThreadedTestCase(TransactionTestCase):
 
         self.assertTrue(default_storage.exists('tests/threaded_upload.mp4'))
         self.assertFalse(os.path.isfile(self.test_video_file))
-        self.assertTrue(media.uploaded)

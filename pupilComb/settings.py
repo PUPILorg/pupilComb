@@ -198,3 +198,6 @@ if use_s3:
     }
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
     DEFAULT_FILE_STORAGE = 'pupilComb.storage_backends.PublicMediaStorage'
+
+# temporary settings
+temporary_timezone = 'America/Denver'

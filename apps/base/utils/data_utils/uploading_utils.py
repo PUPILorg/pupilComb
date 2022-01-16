@@ -21,12 +21,9 @@ class UploadToS3Threaded(threading.Thread):
     def run(self) -> None:
         from apps.base.models.Media import Media
 
-        print(f'uploading {self.local_file}')
-
         with open(self.local_file, 'rb') as video_file:
             default_storage.save(self.upload_path, video_file)
 
-        print(f'done uploading {self.local_file}')
         media = Media.objects.get(id = self.media_id)
         media.set_uploaded()
 
