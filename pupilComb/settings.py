@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'storages',
     'apps.base',
+    'apps.authentication',
     'baton.autodiscover',
 ]
 
@@ -201,3 +202,5 @@ if use_s3:
 
 # temporary settings
 temporary_timezone = 'America/Denver'
+
+AUTH_USER_MODEL = 'authentication.User'
