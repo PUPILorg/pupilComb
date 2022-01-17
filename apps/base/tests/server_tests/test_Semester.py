@@ -30,8 +30,6 @@ class SemesterTestCase(TestCaseWithData):
 
         from_time = from_time.astimezone(tz)
 
-        semester_course.set_schedule()
-
         self.assertTrue(
             CrontabSchedule.objects.filter(
                 minute=from_time.minute,
