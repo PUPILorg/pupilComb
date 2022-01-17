@@ -23,14 +23,6 @@ class CourseFactory(DjangoModelFactory):
 
     identifier = factory.fuzzy.FuzzyText(length=9)
 
-class CourseSectionFactory(DjangoModelFactory):
-    class Meta:
-        model = 'base.CourseSection'
-
-    course = factory.SubFactory(CourseFactory)
-    section_num = factory.Faker('pyint', min_value=0, max_value=999)
-    room = factory.SubFactory(RoomFactory)
-
 class SemesterFactory(DjangoModelFactory):
     class Meta:
         model = 'base.Semester'
@@ -59,9 +51,12 @@ class SemesterCourseFactory(DjangoModelFactory):
     class Meta:
         model = 'base.SemesterCourse'
 
-    course_section = factory.SubFactory(CourseSectionFactory)
     semester = factory.SubFactory(SemesterFactory)
     schedule = factory.SubFactory(ScheduleFactory)
+    course = factory.SubFactory(CourseFactory)
+
+    section_num = factory.Faker('pyint', min_value=0, max_value=999)
+    room = factory.SubFactory(RoomFactory)
 
 
 class SemesterCourseRecordingItemFactory(DjangoModelFactory):

@@ -1,6 +1,5 @@
 from .Course import Course as _Course
 from .SemesterCourseRecordingItem import SemesterCourseRecordingItem as _CourseItems
-from .CourseSection import CourseSection as _CourseSection
 from .Media import Media as _Media
 from .Recorder import Recorder as _RaspberryPi
 from .Schedule import Schedule as _Schedule

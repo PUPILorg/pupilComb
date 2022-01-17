@@ -15,20 +15,18 @@ def set_up_data():
         room=room
     )
     course = data_factory.CourseFactory()
-    course_section = data_factory.CourseSectionFactory(
-        course=course,
-        room=room
-    )
     semester_course = data_factory.SemesterCourseFactory(
+        course=course,
+        room=room,
         semester=semester,
-        course_section=course_section,
         schedule=schedule
     )
     semester_course_recording_item = data_factory.SemesterCourseRecordingItemFactory(
-        semester_course=semester_course
+        semester_course=semester_course,
     )
     media = data_factory.MediaFactory(
-        semester_course_recording_item=semester_course_recording_item
+        semester_course_recording_item=semester_course_recording_item,
+        uploaded=False
     )
     semester_course_meeting_M = data_factory.SemesterCourseMeetingItemFactory(
         day=1,
@@ -46,13 +44,11 @@ def set_up_data():
         recorder=recorder,
         path_to_input='/dev/video2',
         codec=Codec.CODEC_H264,
-        file_container=VideoContainer.MP4,
-        type_device = 0
+        file_container=VideoContainer.MP4
     )
     video_capture_input = data_factory.InputFactory(
         recorder=recorder,
         path_to_input='/dev/video0',
         codec=Codec.CODEC_MJPEG,
-        file_container=VideoContainer.MOV,
-        type_device = 1
+        file_container=VideoContainer.MOV
     )

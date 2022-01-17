@@ -29,14 +29,16 @@ class SemesterTestCase(TestCaseWithData):
         duration = (to_time - from_time).total_seconds()
 
         from_time = from_time.astimezone(tz)
-        to_time = to_time.astimezone(tz)
+
+        semester_course.set_schedule()
 
         self.assertTrue(
             CrontabSchedule.objects.filter(
                 minute=from_time.minute,
                 hour=from_time.hour,
                 day_of_week=str(days)[1:-1],
-                day_of_month='*'
+                day_of_month='*',
+                timezone=temporary_timezone
             ).exists()
         )
 
@@ -45,7 +47,7 @@ class SemesterTestCase(TestCaseWithData):
                 name=f"{semester_course.id}-{semester_course}",
                 task="apps.base.tasks.record_video",
                 kwargs=json.dumps({
-                    "file_folder": f"{self.semester.id}-{self.semester}/{semester_course.id}-{semester_course.course_section}/",
+                    "file_folder": f"{self.semester}/{semester_course.id}/",
                     "pk": self.recorder.id,
                     "duration": duration,
                     "semester_course_id": semester_course.id
@@ -57,31 +59,30 @@ class SemesterTestCase(TestCaseWithData):
         )
 
 
-def test_set_schedule_semester(self):
-    course_section = data_factory.CourseSectionFactory(
-        room=self.room
-    )
+    def test_set_schedule_semester(self):
+        course = data_factory.CourseFactory()
 
-    semester_course = data_factory.SemesterCourseFactory(
-        semester=self.semester,
-        schedule=self.schedule,
-        course_section=course_section
-    )
+        semester_course = data_factory.SemesterCourseFactory(
+            semester=self.semester,
+            schedule=self.schedule,
+            course=course,
+            room=self.room
+        )
 
-    data_factory.SemesterCourseMeetingItemFactory(
-        day=1,
-        semester_course=semester_course
-    )
-    data_factory.SemesterCourseMeetingItemFactory(
-        day=3,
-        semester_course=semester_course
-    )
-    data_factory.SemesterCourseMeetingItemFactory(
-        day=5,
-        semester_course=semester_course
-    )
+        data_factory.SemesterCourseMeetingItemFactory(
+            day=1,
+            semester_course=semester_course
+        )
+        data_factory.SemesterCourseMeetingItemFactory(
+            day=3,
+            semester_course=semester_course
+        )
+        data_factory.SemesterCourseMeetingItemFactory(
+            day=5,
+            semester_course=semester_course
+        )
 
-    self.semester.set_up_schedule_semester()
+        self.semester.set_up_schedule_semester()
 
-    for semester_course in SemesterCourse.objects.filter(semester=self.semester):
-        self.set_schedule_utils(semester_course)
+        for semester_course in SemesterCourse.objects.filter(semester=self.semester):
+            self.set_schedule_utils(semester_course)

@@ -42,7 +42,7 @@ class SemesterCourseTestCase(TestCaseWithData):
                 name=f"{semester_course.id}-{semester_course}",
                 task="apps.base.tasks.record_video",
                 kwargs=json.dumps({
-                    "file_folder": f"{self.semester.id}-{self.semester}/{semester_course.id}-{semester_course.course_section}/",
+                    "file_folder": f"{self.semester}/{semester_course.id}/",
                     "pk": self.recorder.id,
                     "duration": duration,
                     "semester_course_id": semester_course.id

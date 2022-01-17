@@ -4,7 +4,6 @@ from .models.Room import Room
 from .models.Recorder import Recorder
 from .models.SemesterCourseMeetingItem import SemesterCourseMeetingItem
 from .models.SemesterCourse import SemesterCourse
-from .models.CourseSection import CourseSection
 from .models.Course import Course
 from .models.Schedule import Schedule
 from .models.Media import Media
@@ -29,8 +28,8 @@ class SemesterCourseRecordingItemInLine(admin.TabularInline):
 class SemesterCourseMeetingItemInline(admin.TabularInline):
     model = SemesterCourseMeetingItem
 
-class CourseSectionInline(admin.TabularInline):
-    model = CourseSection
+class SemesterCourseSectionInline(admin.TabularInline):
+    model = SemesterCourse
 
 class InputsInLine(admin.TabularInline):
     model = Input
@@ -58,7 +57,7 @@ class SemesterCourseRecordingAdmin(AllFieldsAdmin):
 
 @admin.register(Course)
 class CourseAdmin(AllFieldsAdmin):
-    inlines = (CourseSectionInline, )
+    inlines = (SemesterCourseSectionInline, )
 
 @admin.register(Schedule)
 class ScheduleAdmin(AllFieldsAdmin):

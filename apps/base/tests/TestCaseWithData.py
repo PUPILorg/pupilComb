@@ -33,13 +33,10 @@ class TestCaseWithData(TestCase):
             room=cls.room
         )
         cls.course = data_factory.CourseFactory()
-        cls.course_section = data_factory.CourseSectionFactory(
-            course=cls.course,
-            room=cls.room
-        )
         cls.semester_course = data_factory.SemesterCourseFactory(
+            course = cls.course,
+            room = cls.room,
             semester=cls.semester,
-            course_section=cls.course_section,
             schedule=cls.schedule
         )
         cls.semester_course_recording_item = data_factory.SemesterCourseRecordingItemFactory(
