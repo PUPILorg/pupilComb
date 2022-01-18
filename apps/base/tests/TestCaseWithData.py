@@ -26,6 +26,7 @@ class TestCaseWithData(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        cls.professor = data_factory.ProfessorFactory()
         cls.semester = data_factory.SemesterFactory()
         cls.schedule = data_factory.ScheduleFactory()
         cls.room = data_factory.RoomFactory()
@@ -37,7 +38,8 @@ class TestCaseWithData(TestCase):
             course = cls.course,
             room = cls.room,
             semester=cls.semester,
-            schedule=cls.schedule
+            schedule=cls.schedule,
+            professor = cls.professor
         )
         cls.semester_course_recording_item = data_factory.SemesterCourseRecordingItemFactory(
             semester_course=cls.semester_course,
@@ -71,7 +73,6 @@ class TestCaseWithData(TestCase):
             file_container=VideoContainer.MOV
         )
         cls.student = data_factory.StudentFactory()
-        cls.professor = data_factory.ProfessorFactory()
         cls.student_semester_course_item = data_factory.StudentSemesterCourseItemFactory(
             student = cls.student,
             semester_course = cls.semester_course

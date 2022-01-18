@@ -78,6 +78,7 @@ class SemesterCourseFactory(DjangoModelFactory):
     section_num = factory.Faker('pyint', min_value=0, max_value=999)
     room = factory.SubFactory(RoomFactory)
 
+    professor = factory.SubFactory(ProfessorFactory)
 
 class SemesterCourseRecordingItemFactory(DjangoModelFactory):
     class Meta:
