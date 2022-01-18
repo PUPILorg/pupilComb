@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'debug_toolbar',
     'storages',
+    'rest_framework',
+    'rest_framework.authtoken',
     'apps.base',
     'apps.authentication',
     'baton.autodiscover',
