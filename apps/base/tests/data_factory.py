@@ -3,6 +3,26 @@ import factory.fuzzy
 
 from django.utils import timezone
 
+from pupilComb.settings import AUTH_USER_MODEL
+
+class UserFactory(DjangoModelFactory):
+    class Meta:
+        model = AUTH_USER_MODEL
+
+    email = factory.Faker('email')
+    password = factory.fuzzy.FuzzyText(length=9)
+
+class StudentFactory(DjangoModelFactory):
+    class Meta:
+        model = 'base.Student'
+
+    user = factory.SubFactory(UserFactory)
+
+class ProfessorFactory(DjangoModelFactory):
+    class Meta:
+        model = 'base.Professor'
+
+    user = factory.SubFactory(UserFactory)
 
 class RoomFactory(DjangoModelFactory):
     class Meta:

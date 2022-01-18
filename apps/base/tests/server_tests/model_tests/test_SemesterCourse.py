@@ -1,8 +1,12 @@
 from datetime import datetime
+
+import django.db.utils
 from django.utils import timezone
 
 from apps.base.tests.TestCaseWithData import TestCaseWithData
 from apps.base.models.SemesterCourseMeetingItem import SemesterCourseMeetingItem
+from apps.base.models.SemesterCourse import SemesterCourse
+from apps.base.models.Semester import Semester
 
 from django_celery_beat.models import CrontabSchedule, PeriodicTask
 
@@ -55,3 +59,29 @@ class SemesterCourseTestCase(TestCaseWithData):
 
     def test_set_schedule(self):
        self.set_schedule_util(self.semester_course)
+
+    def test_unique_to_course_and_semester_raise(self):
+       with self.assertRaises(django.db.utils.IntegrityError):
+           SemesterCourse.objects.create(
+               course=self.course,
+               section_num=self.semester_course.section_num,
+               room = self.room,
+               semester=self.semester,
+               schedule=self.schedule
+           )
+
+    def test_unique_to_course_and_semester_passes(self):
+        s = Semester.objects.create(
+            semester='F21'
+        )
+
+        try:
+            SemesterCourse.objects.create(
+                course=self.course,
+                section_num=self.semester_course.section_num,
+                room=self.room,
+                semester=s,
+                schedule=self.schedule
+            )
+        except django.db.utils.IntegrityError:
+            self.fail('the semestercourse was not created')

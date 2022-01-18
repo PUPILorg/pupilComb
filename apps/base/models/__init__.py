@@ -8,3 +8,5 @@ from .Semester import Semester as _Semester
 from .SemesterCourse import SemesterCourse as _SemesterCourse
 from .Room import Room as _Room
 from .Input import Input as _Input
+from .Student import Student as _Student
+from .Professor import Professor as _Professor

@@ -19,6 +19,9 @@ class SemesterCourse(models.Model):
     semester = models.ForeignKey('base.Semester', on_delete=models.SET_NULL, null=True)
     schedule = models.ForeignKey('base.Schedule', on_delete=models.SET_NULL, null=True)
 
+    class Meta:
+        unique_together = ['semester', 'course', 'section_num']
+
     def __str__(self):
         return f'{str(self.course)}-{self.section_num} ({self.semester})'
 
