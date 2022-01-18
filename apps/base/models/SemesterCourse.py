@@ -18,6 +18,7 @@ class SemesterCourse(models.Model):
     room = models.ForeignKey('base.Room', on_delete=models.SET_NULL, null=True)
     semester = models.ForeignKey('base.Semester', on_delete=models.SET_NULL, null=True)
     schedule = models.ForeignKey('base.Schedule', on_delete=models.SET_NULL, null=True)
+    professor = models.ForeignKey('base.Professor', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         unique_together = ['semester', 'course', 'section_num']

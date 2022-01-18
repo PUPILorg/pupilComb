@@ -11,14 +11,15 @@ class TestCaseWithData(TestCase):
 
     any reference to today gets evaluated to the day the test is run
 
+    ## TODO: update these models ##
+
     models that are set up:
         - Semester (F21)
         - Schedule (today -> 10 days + today)
         - Room (random room num)
         - Recorder (room from above, default camera path (/dev/video0))
         - Course (random identifier of length 9)
-        - CourseSection (with above course, random section num, above room)
-        - SemesterCourse (above courseSection, above Semester, above Schedule)
+        - SemesterCourse (above course, above Semester, above Schedule)
         - Media (random video file)
         - CourseItem (above semesterCourse, above media, today's date)
         - SemesterCourseMeetingItem (above SemesterCourse, day, from_time, to_time) there will be a MWF one of these
