@@ -70,3 +70,9 @@ class TestCaseWithData(TestCase):
             codec=Codec.CODEC_MJPEG,
             file_container=VideoContainer.MOV
         )
+        cls.student = data_factory.StudentFactory()
+        cls.professor = data_factory.ProfessorFactory()
+        cls.student_semester_course_item = data_factory.StudentSemesterCourseItemFactory(
+            student = cls.student,
+            semester_course = cls.semester_course
+        )

@@ -10,3 +10,4 @@ from .Room import Room as _Room
 from .Input import Input as _Input
 from .Student import Student as _Student
 from .Professor import Professor as _Professor
+from .StudentSemesterCourseItem import StudentSemesterCourseItem as _StudentSemesterRecordingItem
