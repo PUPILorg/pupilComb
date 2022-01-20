@@ -10,6 +10,9 @@ from .models.Media import Media
 from .models.SemesterCourseRecordingItem import SemesterCourseRecordingItem
 from .models.Semester import Semester
 from .models.Input import Input
+from .models.StudentSemesterCourseItem import StudentSemesterCourseItem
+from .models.Student import Student
+from .models.Professor import Professor
 
 class AllFieldsAdmin(admin.ModelAdmin):
     """
@@ -36,6 +39,9 @@ class InputsInLine(admin.TabularInline):
 
 class MediaInLine(admin.TabularInline):
     model = Media
+
+class StudentSemesterCourseItemInline(admin.TabularInline):
+    model = StudentSemesterCourseItem
 
 # Register your models here.
 @admin.register(Room)
@@ -71,3 +77,11 @@ class SemesterAdmin(AllFieldsAdmin):
     def set_schedule(self, request, queryset: Semester):
         for query in queryset:
             query.set_up_schedule_semester()
+
+@admin.register(Professor)
+class ProfessorAdmin(AllFieldsAdmin):
+    pass
+
+@admin.register(Student)
+class StudentAdmin(AllFieldsAdmin):
+    inlines = (StudentSemesterCourseItemInline, )

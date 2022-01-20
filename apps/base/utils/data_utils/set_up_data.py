@@ -2,12 +2,8 @@ import apps.base.tests.data_factory as data_factory
 
 from apps.base.utils.recording.enums import Codec, VideoContainer
 
-
 def set_up_data():
-    '''
-    run this from the python console
-    :return:
-    '''
+    professor = data_factory.ProfessorFactory()
     semester = data_factory.SemesterFactory()
     schedule = data_factory.ScheduleFactory()
     room = data_factory.RoomFactory()
@@ -19,7 +15,8 @@ def set_up_data():
         course=course,
         room=room,
         semester=semester,
-        schedule=schedule
+        schedule=schedule,
+        professor=professor
     )
     semester_course_recording_item = data_factory.SemesterCourseRecordingItemFactory(
         semester_course=semester_course,
@@ -51,4 +48,9 @@ def set_up_data():
         path_to_input='/dev/video0',
         codec=Codec.CODEC_MJPEG,
         file_container=VideoContainer.MOV
+    )
+    student = data_factory.StudentFactory()
+    student_semester_course_item = data_factory.StudentSemesterCourseItemFactory(
+        student=student,
+        semester_course=semester_course
     )
