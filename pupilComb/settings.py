@@ -103,6 +103,28 @@ TEMPLATES = [
     },
 ]
 
+# REST_API SETTINGS
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication'
+    )
+}
+
+AUTHENTICATION_BACKENDS = (
+# Use Django's session framework for authentication.
+# 'rest_framework.authentication.SessionAuthentication,'
+    'rest_framework.authentication.TokenAuthentication',
+)
+
 WSGI_APPLICATION = 'pupilComb.wsgi.application'
 
 

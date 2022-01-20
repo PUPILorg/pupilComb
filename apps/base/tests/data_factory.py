@@ -10,7 +10,9 @@ class UserFactory(DjangoModelFactory):
         model = AUTH_USER_MODEL
 
     email = factory.Faker('email')
-    password = factory.fuzzy.FuzzyText(length=9)
+    first_name = factory.Faker('first_name')
+    last_name = factory.Faker('last_name')
+    password = factory.PostGenerationMethodCall('set_password', 'password')
 
 class StudentFactory(DjangoModelFactory):
     class Meta:
