@@ -18,6 +18,7 @@ class StudentViewSet(ViewSet):
             'id',
             'semester_course__course__identifier',
             'semester_course__section_num',
+            'semester_course__semester_id',
             'semester_course__semester__semester',
             'semester_course__professor__user__first_name',
             'semester_course__professor__user__last_name',
@@ -27,6 +28,7 @@ class StudentViewSet(ViewSet):
         rename_cols = {
             'semester_course__course__identifier': 'course_identifier',
             'semester_course__section_num': 'section_num',
+            'semester_course__semester_id': 'semester_id',
             'semester_course__semester__semester': 'semester',
             'semester_course__professor__user__first_name': 'professor_first_name',
             'semester_course__professor__user__last_name': 'professor_last_name',
@@ -35,9 +37,14 @@ class StudentViewSet(ViewSet):
 
         ssci.rename(columns=rename_cols, inplace=True)
 
-        response_dict = {}
+        response_list = []
 
         for sem in ssci['semester'].unique():
-            response_dict[sem] = ssci.loc[ssci['semester'] == sem].to_dict(orient='records')
+            semester_dict = {}
+            semester_dict['semester'] = sem
+            semester_dict['courses'] = ssci.loc[ssci['semester'] == sem].to_dict(orient='records')
+            semester_dict['id'] = semester_dict['courses'][0]['semester_id']
 
-        return Response(data=response_dict, status=HTTP_200_OK)
+            response_list.append(semester_dict)
+
+        return Response(data=response_list, status=HTTP_200_OK)
