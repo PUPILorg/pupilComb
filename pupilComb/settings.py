@@ -35,6 +35,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'backend.pupil.systems']
 
 INTERNAL_IPS = ['127.0.0.1',]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'django_celery_beat',
     'debug_toolbar',
     'storages',
@@ -64,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 DEBUG_TOOLBAR_PANELS = [
