@@ -39,6 +39,7 @@ class StudentViewSet(ViewSet):
 
         response_list = []
 
+        #splitting the semester courses into their respective semester for easier consumption on the frontend
         for sem in ssci['semester'].unique():
             semester_dict = {}
             semester_dict['semester'] = sem
