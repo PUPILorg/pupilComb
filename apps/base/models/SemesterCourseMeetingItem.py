@@ -23,6 +23,16 @@ class SemesterCourseMeetingItem(models.Model):
     from_time = models.DateTimeField()
     to_time = models.DateTimeField()
 
+    @property
+    def start(self):
+        """returns just the time from the date time field HH:MM AM/PM format"""
+        return self.from_time.time().strftime("%I:%M %p")
+
+    @property
+    def stop(self):
+        """return just the time from the date time field in HH:MM AM/PM format"""
+        return self.to_time.time().strftime("%I:%M %p")
+
     def __str__(self):
         return f'{self.DAY_CHOICES[self.day-1][-1]} ({self.from_time} - {self.to_time})'
     
