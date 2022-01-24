@@ -35,10 +35,10 @@ class SemesterCourseViewSet(ViewSet):
 
         if not df_semester_course_meeting_item.empty:
             df_semester_course_meeting_item['from_time'] = df_semester_course_meeting_item['from_time'].map(
-            lambda x: x.time().strftime('%I:%M %p'))
+            lambda x: x.time().strftime('%H:%M'))
 
             df_semester_course_meeting_item['to_time'] = df_semester_course_meeting_item['to_time'].map(
-            lambda x: x.time().strftime('%I:%M %p'))
+            lambda x: x.time().strftime('%H:%M'))
 
         df_semester_course['meetings'] = pd.Series([df_semester_course_meeting_item.to_dict(orient='records')])
 
