@@ -26,7 +26,7 @@ class StudentViewSet(ViewSet):
         ))
 
         rename_cols = {
-            'semester_course__course__identifier': 'course_identifier',
+            'semester_course__course__identifier': 'course_name',
             'semester_course__section_num': 'section_num',
             'semester_course__semester_id': 'semester_id',
             'semester_course__semester__semester': 'semester',
@@ -36,6 +36,13 @@ class StudentViewSet(ViewSet):
         }
 
         ssci.rename(columns=rename_cols, inplace=True)
+
+        # function to merge the course_identifier and the section number
+        def merger_ident_section_num(row):
+            return f'{row["course_name"]} - {row["section_num"]}'
+
+        ssci['course_name'] = ssci.apply(merger_ident_section_num, axis=1)
+
 
         response_list = []
 
