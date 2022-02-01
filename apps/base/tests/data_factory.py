@@ -82,6 +82,10 @@ class SemesterCourseFactory(DjangoModelFactory):
 
     professor = factory.SubFactory(ProfessorFactory)
 
+    camera = True
+    projector = True
+    auto_publish = True
+
 class SemesterCourseRecordingItemFactory(DjangoModelFactory):
     class Meta:
         model = 'base.SemesterCourseRecordingItem'

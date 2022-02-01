@@ -8,9 +8,12 @@ from rest_framework.status import HTTP_200_OK
 
 from apps.base.models.StudentSemesterCourseItem import StudentSemesterCourseItem
 
+from .decorators import student_only
+
 class StudentViewSet(ViewSet):
 
     @action(methods=['GET'], detail=False, url_path='courses')
+    @student_only
     def courses(self, request):
         student = request.user.student
 

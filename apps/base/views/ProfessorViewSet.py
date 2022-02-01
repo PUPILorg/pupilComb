@@ -9,9 +9,12 @@ from rest_framework.status import HTTP_200_OK
 from apps.base.models.Room import Room
 from apps.base.models.SemesterCourse import SemesterCourse
 
+from .decorators import professor_only
+
 class ProfessorViewSet(ViewSet):
 
     @action(methods=['GET'], detail=False, url_path='available_rooms')
+    @professor_only
     def available_rooms(self, request):
 
         return_data = list(Room.objects.all().values_list('room_num', flat=True))
@@ -19,6 +22,7 @@ class ProfessorViewSet(ViewSet):
         return Response(data=return_data, status=HTTP_200_OK)
 
     @action(methods=['GET'], detail=False, url_path='courses')
+    @professor_only
     def courses(self, request):
 
         prof = request.user.professor
@@ -32,16 +36,6 @@ class ProfessorViewSet(ViewSet):
             'professor__user__last_name',
             'professor_id'
         ))
-        
-        rename_cols = {
-            'course__identifier': 'course_name',
-            'section_num': 'section_num',
-            'semester_id': 'semester_id',
-            'semester__semester': 'semester',
-            'professor__user__first_name': 'professor_first_name',
-            'professor__user__last_name': 'professor_last_name',
-            'professor_id': 'professor_id'
-        }
         
         rename_cols = {
             'course__identifier': 'course_name',

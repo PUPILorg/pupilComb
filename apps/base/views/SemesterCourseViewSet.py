@@ -9,11 +9,11 @@ from rest_framework.status import HTTP_200_OK
 from apps.base.models.SemesterCourse import SemesterCourse
 from apps.base.models.SemesterCourseMeetingItem import SemesterCourseMeetingItem
 
+
 class SemesterCourseViewSet(ViewSet):
 
     @action(methods=['GET'], detail=False, url_path='(?P<pk>[0-9]+)')
     def get(self, request, pk):
-
         df_semester_course = pd.DataFrame.from_records(SemesterCourse.objects.filter(id=pk).values(
             'id',
             'course__identifier',
@@ -27,18 +27,19 @@ class SemesterCourseViewSet(ViewSet):
             'schedule__to_date'
         ))
 
-        df_semester_course_meeting_item = pd.DataFrame.from_records(SemesterCourseMeetingItem.objects.filter(semester_course_id=pk).values(
-            'day',
-            'from_time',
-            'to_time'
-        ))
+        df_semester_course_meeting_item = pd.DataFrame.from_records(
+            SemesterCourseMeetingItem.objects.filter(semester_course_id=pk).values(
+                'day',
+                'from_time',
+                'to_time'
+            ))
 
         if not df_semester_course_meeting_item.empty:
             df_semester_course_meeting_item['from_time'] = df_semester_course_meeting_item['from_time'].map(
-            lambda x: x.time().strftime('%H:%M'))
+                lambda x: x.time().strftime('%H:%M'))
 
             df_semester_course_meeting_item['to_time'] = df_semester_course_meeting_item['to_time'].map(
-            lambda x: x.time().strftime('%H:%M'))
+                lambda x: x.time().strftime('%H:%M'))
 
         df_semester_course['meetings'] = pd.Series([df_semester_course_meeting_item.to_dict(orient='records')])
 
